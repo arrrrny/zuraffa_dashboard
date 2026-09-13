@@ -59,7 +59,9 @@ class InMemoryDashboardDataSource
   Future<List<Dashboard>> getList(ListQueryParams<Dashboard> params) async {
     final owner = params.params?['owner'];
     final all = store.dashboards.values.toList(growable: false);
-    if (owner is! String || owner.isEmpty) return all;
+    // ListDashboardsUseCase contract: an unknown owner yields an empty list,
+    // never every owner's dashboards.
+    if (owner is! String || owner.isEmpty) return const <Dashboard>[];
     return all.where((d) => d.owner == owner).toList(growable: false);
   }
 

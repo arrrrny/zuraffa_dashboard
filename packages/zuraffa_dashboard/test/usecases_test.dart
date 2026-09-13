@@ -94,6 +94,24 @@ void main() {
       );
       expect(theirs, isEmpty, reason: 'unknown owner yields an empty list');
     });
+
+    test('an empty owner query yields an empty list, never every dashboard',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: 'a', title: 'A', owner: kOwner),
+        null,
+      );
+      final useCase = ListDashboardsUseCase(repository);
+
+      final none = await useCase.execute(
+        const ListDashboardsParams(owner: ''),
+        null,
+      );
+      expect(none, isEmpty,
+          reason: 'an empty owner must not leak another owner dashboards');
+    });
   });
 
   group('get dashboard (FR-003)', () {
@@ -214,6 +232,14 @@ void main() {
         throwsA(isA<TileNotFoundException>()),
         reason: 'removing an absent tile raises the typed error',
       );
+      await expectLater(
+        useCase.execute(
+          const RemoveTileParams(dashboardId: 'missing', tileId: kTile),
+          null,
+        ),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown dashboard raises the typed error',
+      );
     });
   });
 
@@ -269,6 +295,19 @@ void main() {
         ),
         throwsA(isA<TileNotFoundException>()),
         reason: 'an unknown tile raises the typed error',
+      );
+      await expectLater(
+        useCase.execute(
+          const MoveTileParams(
+            dashboardId: 'missing',
+            tileId: kTile,
+            row: 1,
+            column: 1,
+          ),
+          null,
+        ),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown dashboard raises the typed error',
       );
     });
   });
@@ -339,6 +378,19 @@ void main() {
         ),
         throwsA(isA<TileNotFoundException>()),
         reason: 'an unknown tile raises the typed error',
+      );
+      await expectLater(
+        useCase.execute(
+          const ResizeTileParams(
+            dashboardId: 'missing',
+            tileId: kTile,
+            rowSpan: 1,
+            colSpan: 1,
+          ),
+          null,
+        ),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown dashboard raises the typed error',
       );
     });
   });

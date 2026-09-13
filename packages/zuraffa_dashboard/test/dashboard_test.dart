@@ -341,15 +341,15 @@ void main() {
       expect(getIt.isRegistered<DashboardRepository>(), isTrue);
 
       // All nine use cases resolve.
-      expect(getIt<CreateDashboardUseCase>(), isNotNull);
-      expect(getIt<ListDashboardsUseCase>(), isNotNull);
-      expect(getIt<GetDashboardUseCase>(), isNotNull);
-      expect(getIt<SaveDashboardUseCase>(), isNotNull);
-      expect(getIt<AddTileUseCase>(), isNotNull);
-      expect(getIt<RemoveTileUseCase>(), isNotNull);
-      expect(getIt<MoveTileUseCase>(), isNotNull);
-      expect(getIt<ResizeTileUseCase>(), isNotNull);
-      expect(getIt<ResetDashboardUseCase>(), isNotNull);
+      expect(getIt<CreateDashboardUseCase>(), isA<CreateDashboardUseCase>());
+      expect(getIt<ListDashboardsUseCase>(), isA<ListDashboardsUseCase>());
+      expect(getIt<GetDashboardUseCase>(), isA<GetDashboardUseCase>());
+      expect(getIt<SaveDashboardUseCase>(), isA<SaveDashboardUseCase>());
+      expect(getIt<AddTileUseCase>(), isA<AddTileUseCase>());
+      expect(getIt<RemoveTileUseCase>(), isA<RemoveTileUseCase>());
+      expect(getIt<MoveTileUseCase>(), isA<MoveTileUseCase>());
+      expect(getIt<ResizeTileUseCase>(), isA<ResizeTileUseCase>());
+      expect(getIt<ResetDashboardUseCase>(), isA<ResetDashboardUseCase>());
 
       final service = getIt<DashboardService>();
       final board = await service.create(
@@ -374,12 +374,12 @@ void main() {
       final getIt = GetIt.asNewInstance();
       final nativePort = InMemoryDashboardAdapter();
       setPlatformDashboardPortFactory(() => nativePort);
+      addTearDown(() => setPlatformDashboardPortFactory(null));
       registerDashboardDependencies(getIt);
 
       final port = getIt<DashboardPort>();
       expect(identical(port, nativePort), isTrue,
           reason: 'the factory product becomes the default port');
-      setPlatformDashboardPortFactory(null);
     });
   });
 

@@ -52,12 +52,10 @@ void main() {
       final tiles = layouts[kMain] ?? <DashboardTile>[];
       expect(tiles, hasLength(1),
           reason: 'the unknown wire tile degrades away, the good one stays');
-      if (tiles.isNotEmpty) {
-        expect(tiles.first.id, kTile,
-            reason: 'the well-formed tile decodes typed');
-        expect(tiles.first.placement.colSpan, 2,
-            reason: 'the placement decodes');
-      }
+      expect(tiles.first.id, kTile,
+          reason: 'the well-formed tile decodes typed');
+      expect(tiles.first.placement.colSpan, 2,
+          reason: 'the placement decodes');
 
       // typed -> wire
       var savedArgs = <Object?>[];
@@ -69,7 +67,6 @@ void main() {
         }
         return null;
       });
-      if (tiles.isEmpty) return;
       await adapter.saveLayout(kMain, tiles);
       expect(savedArgs.first, kMain, reason: 'the id leads the save');
       final savedTiles = savedArgs.last as List<Object?>;

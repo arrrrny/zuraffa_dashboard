@@ -7,8 +7,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import org.json.JSONTokener
-import java.io.StringWriter
 import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * The Android native plugin for zuraffa_dashboard: persists dashboard
@@ -36,13 +36,13 @@ class ZuraffaDashboardPlugin : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "loadLayouts" -> {
-                val layouts = HashMap<String, Any>()
+                val layouts = HashMap<String, Any?>()
                 for (entry in preferences.all) {
                     if (!entry.key.startsWith(PREFIX)) continue
                     val payload = entry.value as? String ?: continue
                     runCatching {
                         layouts[entry.key.removePrefix(PREFIX)] =
-                            JSONTokener(payload).nextValue()
+                            toCodecValue(JSONTokener(payload).nextValue())
                     }
                 }
                 result.success(layouts)
@@ -90,6 +90,19 @@ class ZuraffaDashboardPlugin : FlutterPlugin, MethodCallHandler {
             }
             else -> result.notImplemented()
         }
+    }
+
+    /**
+     * Flutter's StandardMessageCodec cannot encode org.json types, so a
+     * parsed payload is rebuilt with List/Map/null — the shapes the codec
+     * understands — before it enters a result map.
+     */
+    private fun toCodecValue(value: Any?): Any? = when (value) {
+        null, JSONObject.NULL -> null
+        is JSONArray -> (0 until value.length()).map { toCodecValue(value.opt(it)) }
+        is JSONObject -> value.keys().asSequence()
+            .associateWith { toCodecValue(value.opt(it)) }
+        else -> value
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {

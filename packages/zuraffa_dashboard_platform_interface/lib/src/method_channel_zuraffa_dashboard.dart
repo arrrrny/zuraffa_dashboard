@@ -8,8 +8,9 @@ import 'dashboard_platform_interface.dart';
 /// across platforms (see contracts/method-channel-protocol.md).
 class MethodChannelZuraffaDashboard extends ZuraffaDashboardPlatform {
   /// The shared channel — every platform package registers the same
-  /// name (`zuraffa_dashboard`).
-  static const MethodChannel channel = MethodChannel('zuraffa_dashboard');
+  /// name ([DashboardWire.channelName]).
+  static const MethodChannel channel =
+      MethodChannel(DashboardWire.channelName);
 
   @override
   Future<Map<String, List<Object?>>> loadLayouts() async {

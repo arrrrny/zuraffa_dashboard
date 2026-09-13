@@ -1,17 +1,33 @@
-# example
+# zuraffa_dashboard example
 
-A new Flutter project.
+Example host app for the `zuraffa_dashboard` federated plugin: it
+registers the dashboard stack, builds a board, saves it, and lists the
+demo user's boards.
 
-## Getting Started
+## What it demonstrates
 
-This project is a starting point for a Flutter application.
+- `registerDashboardDependencies` wiring the port, the repository, the
+  nine use cases, and the `DashboardService` facade through GetIt.
+- The documented host journey in `lib/main.dart` —
+  `create` → `addTile` → `moveTile` → `save`.
+- Reading the boards back with `DashboardService.list` and rendering them
+  in a `FutureBuilder`. The future is cached on the widget, so a rebuild
+  does not re-query.
+- The in-memory default port: with no platform package registered the
+  example runs anywhere, layouts persisting for the process lifetime.
 
-A few resources to get you started if this is your first Flutter project:
+## Run
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```sh
+flutter pub get
+flutter run -d macos   # or any connected device
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Test
+
+```sh
+flutter test
+```
+
+`test/dashboard_flow_test.dart` replays the same journey against a fresh
+GetIt container and asserts the saved layout reads back through the port.

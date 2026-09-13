@@ -51,14 +51,14 @@ public class ZuraffaDashboardPlugin: NSObject, FlutterPlugin {
 
   private func saveLayout(_ arguments: Any?, result: @escaping FlutterResult) {
     guard let args = arguments as? [Any], args.count == 2,
-      let id = args[0] as? String,
-      let tiles = args[1]
+      let id = args[0] as? String
     else {
       result(FlutterError(
         code: "invalid_arguments",
         message: "saveLayout expects [String id, Any tiles]", details: nil))
       return
     }
+    let tiles = args[1]
     guard JSONSerialization.isValidJSONObject([tiles]),
       let data = try? JSONSerialization.data(withJSONObject: tiles),
       let payload = String(data: data, encoding: .utf8)

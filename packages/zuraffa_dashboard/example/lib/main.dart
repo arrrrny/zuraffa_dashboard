@@ -38,10 +38,24 @@ Future<void> main() async {
 }
 
 /// The example host: lists the demo user's boards and their tiles.
-class DashboardExampleApp extends StatelessWidget {
+class DashboardExampleApp extends StatefulWidget {
   const DashboardExampleApp({super.key, required this.service});
 
   final DashboardService service;
+
+  @override
+  State<DashboardExampleApp> createState() => _DashboardExampleAppState();
+}
+
+class _DashboardExampleAppState extends State<DashboardExampleApp> {
+  /// Queried once in [initState], not on every rebuild.
+  late final Future<List<Dashboard>> _boards;
+
+  @override
+  void initState() {
+    super.initState();
+    _boards = widget.service.list('demo-user');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +64,7 @@ class DashboardExampleApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('zuraffa_dashboard example')),
         body: FutureBuilder<List<Dashboard>>(
-          future: service.list('demo-user'),
+          future: _boards,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
