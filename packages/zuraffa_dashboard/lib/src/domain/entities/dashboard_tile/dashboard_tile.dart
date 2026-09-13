@@ -3,11 +3,12 @@ import 'package:zorphy_annotation/zorphy_annotation.dart';
 import '../tile_placement/tile_placement.dart';
 
 part 'dashboard_tile.zorphy.dart';
+part 'dashboard_tile.g.dart';
 
 /// DashboardTile entity (FR-001): one card on a dashboard, identified by a
 /// unique [id] within its dashboard, discriminated by [type], placed on the
 /// grid via [placement], and carrying an opaque JSON-encodable [config].
-@Zorphy(generateCompareTo: true)
+@Zorphy(generateJson: true, generateCompareTo: true)
 abstract class $DashboardTile {
   /// Unique identifier within its dashboard.
   String get id;

@@ -8,6 +8,7 @@ part of 'dashboard.dart';
 // ZorphyGenerator
 // **************************************************************************
 
+@JsonSerializable(explicitToJson: true, checked: true)
 class Dashboard {
   Dashboard({
     required String this.id,
@@ -16,6 +17,9 @@ class Dashboard {
     required List<DashboardTile> this.tiles,
     required bool this.isDefault,
   });
+
+  factory Dashboard.fromJson(Map<String, dynamic> json) =>
+      _$DashboardFromJson(json);
 
   final String id;
 
@@ -166,6 +170,24 @@ class Dashboard {
         ', ' +
         'isDefault: ${isDefault})';
   }
+
+  Map<String, dynamic> toJsonLean() {
+    final Map<String, dynamic> data = _$DashboardToJson(this);
+    _sanitizeJson(data);
+    return data;
+  }
+
+  dynamic _sanitizeJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      json.remove('__typename');
+      return json..forEach((key, value) {
+        json[key] = _sanitizeJson(value);
+      });
+    } else if (json is List) {
+      return json.map((e) => _sanitizeJson(e)).toList();
+    }
+    return json;
+  }
 }
 
 extension DashboardPropertyHelpers on Dashboard {
@@ -199,6 +221,12 @@ extension DashboardPropertyHelpers on Dashboard {
 
   bool get noTiles {
     return this.tiles.isEmpty;
+  }
+}
+
+extension DashboardSerialization on Dashboard {
+  Map<String, dynamic> toJson() {
+    return _$DashboardToJson(this);
   }
 }
 

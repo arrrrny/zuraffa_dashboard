@@ -8,6 +8,7 @@ part of 'dashboard_tile.dart';
 // ZorphyGenerator
 // **************************************************************************
 
+@JsonSerializable(explicitToJson: true, checked: true)
 class DashboardTile {
   DashboardTile({
     required String this.id,
@@ -17,6 +18,9 @@ class DashboardTile {
     required bool this.enabled,
     required Map<String, Object?> this.config,
   });
+
+  factory DashboardTile.fromJson(Map<String, dynamic> json) =>
+      _$DashboardTileFromJson(json);
 
   final String id;
 
@@ -189,6 +193,24 @@ class DashboardTile {
         ', ' +
         'config: ${config})';
   }
+
+  Map<String, dynamic> toJsonLean() {
+    final Map<String, dynamic> data = _$DashboardTileToJson(this);
+    _sanitizeJson(data);
+    return data;
+  }
+
+  dynamic _sanitizeJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      json.remove('__typename');
+      return json..forEach((key, value) {
+        json[key] = _sanitizeJson(value);
+      });
+    } else if (json is List) {
+      return json.map((e) => _sanitizeJson(e)).toList();
+    }
+    return json;
+  }
 }
 
 extension DashboardTilePropertyHelpers on DashboardTile {
@@ -225,6 +247,12 @@ extension DashboardTilePropertyHelpers on DashboardTile {
   }
 }
 
+extension DashboardTileSerialization on DashboardTile {
+  Map<String, dynamic> toJson() {
+    return _$DashboardTileToJson(this);
+  }
+}
+
 enum DashboardTile$ { id, type, title, placement, enabled, config }
 
 class DashboardTilePatch extends PatchBase<DashboardTile, DashboardTile$> {
@@ -249,6 +277,21 @@ class DashboardTilePatch extends PatchBase<DashboardTile, DashboardTile$> {
 
   DashboardTilePatch withPlacement(TilePlacement? value) {
     patchMap[DashboardTile$.placement] = value;
+    return this;
+  }
+
+  DashboardTilePatch withPlacementPatch(TilePlacementPatch patch) {
+    patchMap[DashboardTile$.placement] = patch;
+    return this;
+  }
+
+  DashboardTilePatch withPlacementPatchFunc(
+    TilePlacementPatch Function(TilePlacementPatch) patch,
+  ) {
+    patchMap[DashboardTile$.placement] = (dynamic current) {
+      var currentPatch = TilePlacementPatch();
+      return patch(currentPatch).applyTo(current as TilePlacement);
+    };
     return this;
   }
 

@@ -56,3 +56,22 @@ test existed and failed before the implementation.
   3 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 4: U4 entities round-trip through JSON
+
+- test: `test/dashboard_test.dart::entities (FR-001) entities round-trip
+  through JSON` (new)
+- red: `dart test` -> `Error: Member not found: 'TilePlacement.fromJson'` /
+  `'DashboardTile.fromJson'` / `'Dashboard.fromJson'`
+- implementation: `generateJson: true` on all three entities + `*.g.dart`
+  parts + regen; TilePlacement upgraded from the U1-cycle stub to the full
+  Zorphy value object (the `create` guard moved onto the abstract class)
+- test correction (its own step, before green, stated reason): the initial
+  whole-object equality assertions failed because zorphy's generated `==`
+  compares collections by identity (`tiles == other.tiles`), the ecosystem
+  codegen idiom. Replaced with field-wise round-trip assertions pinning
+  every field (row 2/column 3/rowSpan 1/colSpan 2, config payload, nested
+  placement) — same behavior, observable field by field; nothing weakened.
+- green: suite `dart test` -> 4 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)
