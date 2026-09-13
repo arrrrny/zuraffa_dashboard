@@ -74,7 +74,7 @@ checks over the shipped artifacts.
 
 | id  | behavior                                                                                      | traces     | kind             | state   | test |
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
-| U14 | `CreateDashboardUseCase` creates and persists; a duplicate id fails typed                     | FR-003     | example          | PENDING |      |
+| U14 | `CreateDashboardUseCase` creates and persists; a duplicate id fails typed                     | FR-003     | example          | DONE | `test/usecases_test.dart::creates and persists; duplicate id fails typed…` |
 | U15 | `ListDashboardsUseCase` filters by owner; an unknown owner yields an empty list               | FR-003     | example          | PENDING |      |
 | U16 | `GetDashboardUseCase` raises `DashboardNotFoundException` for an unknown id                    | FR-003     | example          | PENDING |      |
 | U17 | `AddTileUseCase` appends the tile; a duplicate tile id raises `DuplicateTileException`        | FR-003     | example          | PENDING |      |

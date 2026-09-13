@@ -161,3 +161,18 @@ test existed and failed before the implementation.
 - green: suite -> 11 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 12: U14 CreateDashboardUseCase creates/persists; duplicate typed; empty fields rejected
+
+- test: `test/usecases_test.dart::create dashboard (FR-003) creates and
+  persists; duplicate id fails typed; empty fields rejected` (new file)
+- red: `dart test test/usecases_test.dart` -> `Error when reading
+  'lib/src/domain/usecases/dashboard/create_dashboard_usecase.dart'` /
+  `Method not found: 'CreateDashboardUseCase'` / `Couldn't find constructor
+  'CreateDashboardParams'`
+- green: `CreateDashboardUseCase` (+ Params) over the repository —
+  duplicate id detection via the repository's typed not-found, empty
+  id/title/owner rejected with ArgumentError. Suite -> 12 passed, 0 failed
+- refactor: removed the test's direct src import once the barrel exported
+  the use case (analyze clean)
+- commit: (this commit)

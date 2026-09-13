@@ -30,5 +30,6 @@ export 'src/domain/entities/dashboard_tile/dashboard_tile.dart';
 export 'src/domain/entities/tile_placement/tile_placement.dart';
 export 'src/domain/errors/dashboard_errors.dart';
 export 'src/domain/repositories/dashboard_repository.dart';
+export 'src/domain/usecases/dashboard/create_dashboard_usecase.dart';
 
 // Layers land with their tasks; the export list completes at T026/T031.
