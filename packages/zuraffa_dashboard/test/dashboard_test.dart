@@ -369,5 +369,17 @@ void main() {
       expect(identical(port, customPort), isTrue,
           reason: 'the injected port is registered verbatim');
     });
+
+    test('a platform port factory switches the DI default', () async {
+      final getIt = GetIt.asNewInstance();
+      final nativePort = InMemoryDashboardAdapter();
+      setPlatformDashboardPortFactory(() => nativePort);
+      registerDashboardDependencies(getIt);
+
+      final port = getIt<DashboardPort>();
+      expect(identical(port, nativePort), isTrue,
+          reason: 'the factory product becomes the default port');
+      setPlatformDashboardPortFactory(null);
+    });
   });
 }

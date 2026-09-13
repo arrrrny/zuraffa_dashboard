@@ -30,7 +30,7 @@ DashboardPort? Function()? _platformDashboardPortFactory;
 
 /// Called by a platform package at registration time to supply the real
 /// [DashboardPort] (bridged onto its native [ZuraffaDashboardPlatform]).
-void setPlatformDashboardPortFactory(DashboardPort Function() factory) {
+void setPlatformDashboardPortFactory(DashboardPort Function()? factory) {
   _platformDashboardPortFactory = factory;
 }
 

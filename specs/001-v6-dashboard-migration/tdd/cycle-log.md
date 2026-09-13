@@ -301,3 +301,20 @@ test existed and failed before the implementation.
 - green: suite -> 22 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 23: U29 a platform port factory switches the DI default
+
+- test: `test/dashboard_test.dart::di (FR-004) a platform port factory
+  switches the DI default` (new)
+- red: `dart test` -> `The argument type 'Null' can't be assigned to the
+  parameter type 'DashboardPort Function()'` — the test drives the setter
+  to accept a nullable factory (passing null clears a factory), needed for
+  teardown
+- green: setter widened to `DashboardPort Function()?`; factory product
+  becomes the registered default port. Suite -> 23 passed, 0 failed;
+  analyze clean
+- mutant check: `_defaultDashboardPort()` mutated to always return the
+  in-memory default -> `Expected: true / Actual: <false>` caught; restored
+  (a first restore also reverted the nullable-setter change — re-applied,
+  suite re-verified green)
+- commit: (this commit)
