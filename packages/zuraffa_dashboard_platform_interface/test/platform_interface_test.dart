@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
 import 'package:zuraffa_dashboard_platform_interface/zuraffa_dashboard_platform_interface.dart';
 
 const kMain = 'main';

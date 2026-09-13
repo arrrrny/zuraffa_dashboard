@@ -383,3 +383,23 @@ test existed and failed before the implementation.
 - green: suite -> 5 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 29: U28 MethodChannelDashboardAdapter bridges wire<->typed; unknown tiles degrade
+
+- test: `test/adapter_test.dart::method channel adapter (FR-006) bridges
+  wire layouts to typed tiles and back; unknown wire tiles degrade` (new)
+- red: `flutter test` -> `Method not found: 'MethodChannelDashboardAdapter'`
+  (+ two test typing slips fixed before the run)
+- implementation discoveries on the way to green (both part of this
+  cycle's smallest change):
+  1. the adapter must drive a real channel driver — the test constructs it
+     with `platform: MethodChannelZuraffaDashboard()` (the production shape
+     where federated registerWith() sets the instance first);
+  2. the platform codec decodes maps with `Object?` keys while the
+     generated `fromJson` casts to `Map<String, dynamic>` — added a
+     recursive deep key conversion before decoding.
+- mutant check: decode loop mutated to skip every tile -> adapter test
+  fails; restoring via git checkout failed on the then-untracked file, so
+  the correct implementation was rewritten and the suite re-verified
+- green: suite -> 6 passed, 0 failed; flutter analyze clean
+- commit: (this commit)

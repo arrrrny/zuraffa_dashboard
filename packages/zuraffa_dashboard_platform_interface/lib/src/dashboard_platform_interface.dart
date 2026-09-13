@@ -1,6 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'method_channel_zuraffa_dashboard.dart';
 
 /// The native contract every zuraffa_dashboard platform package
 /// implements: load/save/remove dashboard layouts keyed by dashboard id
