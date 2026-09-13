@@ -342,4 +342,45 @@ void main() {
       );
     });
   });
+
+  group('save dashboard (FR-003)', () {
+    test('persists the board through the repository and the port', () async {
+      final repository = repositoryForTest();
+      final port = InMemoryDashboardAdapter();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        enabled: true,
+        config: const {},
+      );
+      final board = await AddTileUseCase(repository).execute(
+        AddTileParams(dashboardId: kMain, tile: tile),
+        null,
+      );
+      final useCase = SaveDashboardUseCase(repository, port);
+
+      await useCase.execute(SaveDashboardParams(dashboard: board), null);
+
+      final stored = await repository.get(
+        QueryParams<Dashboard>(params: {'id': kMain}),
+      );
+      expect(stored.tiles, hasLength(1), reason: 'repository holds the board');
+
+      final layouts = await port.loadLayouts();
+      expect(layouts[kMain], hasLength(1), reason: 'port holds the layout');
+      expect(layouts[kMain]!.first.id, kTile, reason: 'layout tile intact');
+    });
+  });
 }

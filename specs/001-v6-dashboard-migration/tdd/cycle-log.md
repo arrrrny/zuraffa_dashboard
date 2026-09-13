@@ -246,3 +246,16 @@ test existed and failed before the implementation.
   Suite -> 18 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 19: U21 SaveDashboardUseCase persists through repository and port
+
+- test: `test/usecases_test.dart::save dashboard (FR-003) persists the
+  board through the repository and the port` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'SaveDashboardUseCase'` (+ a const-expression slip in the test itself,
+  fixed before the implementation run)
+- green: `SaveDashboardUseCase` (+ Params) holding repository + port —
+  update() mirrors the board's tiles into the port layout snapshot.
+  Suite -> 19 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)
