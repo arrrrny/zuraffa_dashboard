@@ -30,9 +30,9 @@ checks over the shipped artifacts.
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | -------- | ------- | ----------------------------------------------------------------- |
 | A1  | A host completes a full dashboard journey through the public API only: `registerDashboardDependencies(getIt)` → create → addTile → moveTile → save → a fresh service over the same store restores the moved layout | SC-002, FR-004 | example  | DONE | `test/dashboard_test.dart::a host drives the full journey…` |
 | A2  | Without any platform package registered, the composed stack works on the in-memory default and the default platform instance answers every call without crashing | SC-002, FR-005, FR-006 | example | DONE | `adapter_test.dart::composed stack without a platform package…` |
-| A3  | Each of the five packages passes publish dry-run with `dart analyze` clean                                                                        | SC-003, FR-008  | contract | PENDING | `flutter/dart pub publish --dry-run` per package (quickstart §4)  |
-| A4  | The publish pipeline is scripted: the three scripts exist, parse, and carry exactly the five package names in dependency order                     | SC-004, FR-009  | contract | PENDING | `bash -n` + package-list check (quickstart §5)                    |
-| A5  | Repo shape parity: five sibling-shaped packages under `packages/` plus root README/LICENSE/CHANGELOG/PUBLISH.md/scripts/specs                      | SC-001, FR-010  | example  | PENDING | shape check (quickstart §1)                                       |
+| A3  | Each of the five packages passes publish dry-run with `dart analyze` clean                                                                        | SC-003, FR-008  | contract | DONE | dry-run outputs recorded in cycle-log cycle 32 |
+| A4  | The publish pipeline is scripted: the three scripts exist, parse, and carry exactly the five package names in dependency order                     | SC-004, FR-009  | contract | DONE | `bash -n` + package-list proof recorded in cycle-log cycle 32 |
+| A5  | Repo shape parity: five sibling-shaped packages under `packages/` plus root README/LICENSE/CHANGELOG/PUBLISH.md/scripts/specs                      | SC-001, FR-010  | example  | DONE | shape proof recorded in cycle-log cycle 32 |
 
 ## Inner loop: unit behaviors
 

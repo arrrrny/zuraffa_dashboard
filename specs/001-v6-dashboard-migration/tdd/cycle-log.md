@@ -430,3 +430,19 @@ test existed and failed before the implementation.
 - green: platform-interface suite -> 7 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 32: A3/A4/A5 artifact contract checks (publish, pipeline, shape)
+
+- A3 (SC-003, FR-008): `dart pub publish --dry-run` in
+  `packages/zuraffa_dashboard` -> "Package has 0 warnings";
+  `flutter pub publish --dry-run` in the four Flutter packages -> "0
+  warnings" (1-2 hints: in-family `dependency_overrides`, standard for the
+  sibling family)
+- A4 (SC-004, FR-009): `bash -n` on all three scripts passes;
+  `PACKAGES_IN_ORDER` carries exactly the five packages, app-facing first
+- A5 (SC-001, FR-010): `packages/` holds the five sibling-shaped packages;
+  root README/LICENSE/CHANGELOG/PUBLISH.md/scripts/specs present; LICENSE
+  byte-identical to the sibling; per-package layout parity with
+  `zuraffa_permissions` (modulo the example app pending as T044)
+- state: A3, A4, A5 -> DONE
+- commit: (this commit)
