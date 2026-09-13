@@ -274,3 +274,19 @@ test existed and failed before the implementation.
   0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 21: U12 registerDashboardDependencies wires port/repo/9 use cases/service; in-memory default
+
+- test: `test/dashboard_test.dart::di (FR-004) registration wires port,
+  repository, use cases, and service; the default port is in-memory` (new)
+- red: `dart test` -> `Method not found: 'registerDashboardDependencies'` /
+  `'DashboardService' isn't a type`
+- green: `DashboardService` facade (all journeys delegating to
+  `execute(...)`) + `registerDashboardDependencies` + the
+  `setPlatformDashboardPortFactory` seam in `lib/src/di/dashboard_di.dart`
+  (sibling registration style); barrel exports. Suite -> 21 passed, 0
+  failed
+- refactor: dropped unused imports; switched the facade from the `call()`
+  (Result-wrapping) syntax to plain `execute()` to keep the facade's
+  Future<T> contract
+- commit: (this commit)

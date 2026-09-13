@@ -328,4 +328,36 @@ void main() {
       expect(afterRemoveAll, isEmpty, reason: 'removeAll clears every layout');
     });
   });
+
+  group('di (FR-004)', () {
+    test('registration wires port, repository, use cases, and service; the default port is in-memory',
+        () async {
+      final getIt = GetIt.asNewInstance();
+      registerDashboardDependencies(getIt);
+
+      expect(getIt.isRegistered<DashboardPort>(), isTrue);
+      expect(getIt<DashboardPort>(), isA<InMemoryDashboardAdapter>(),
+          reason: 'no platform package registered -> in-memory default');
+      expect(getIt.isRegistered<DashboardRepository>(), isTrue);
+
+      // All nine use cases resolve.
+      expect(getIt<CreateDashboardUseCase>(), isNotNull);
+      expect(getIt<ListDashboardsUseCase>(), isNotNull);
+      expect(getIt<GetDashboardUseCase>(), isNotNull);
+      expect(getIt<SaveDashboardUseCase>(), isNotNull);
+      expect(getIt<AddTileUseCase>(), isNotNull);
+      expect(getIt<RemoveTileUseCase>(), isNotNull);
+      expect(getIt<MoveTileUseCase>(), isNotNull);
+      expect(getIt<ResizeTileUseCase>(), isNotNull);
+      expect(getIt<ResetDashboardUseCase>(), isNotNull);
+
+      final service = getIt<DashboardService>();
+      final board = await service.create(
+        id: 'wired',
+        title: 'Wired',
+        owner: kOwner,
+      );
+      expect(board.id, 'wired', reason: 'the service journey works end to end');
+    });
+  });
 }
