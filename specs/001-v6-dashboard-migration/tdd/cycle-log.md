@@ -187,3 +187,14 @@ test existed and failed before the implementation.
   owner-filtered getList. Suite -> 13 passed, 0 failed
 - refactor: removed the direct src import once the barrel exported it
 - commit: (this commit)
+
+## Cycle 14: U16 GetDashboardUseCase returns the board; unknown id typed error
+
+- test: `test/usecases_test.dart::get dashboard (FR-003) returns the
+  stored board; an unknown id raises the typed error` (new)
+- red: `dart test test/usecases_test.dart` -> 3 compile errors (missing
+  `GetDashboardUseCase` / `GetDashboardParams`)
+- green: `GetDashboardUseCase` (+ Params) delegating to the repository get.
+  Suite -> 14 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

@@ -94,4 +94,31 @@ void main() {
       expect(theirs, isEmpty, reason: 'unknown owner yields an empty list');
     });
   });
+
+  group('get dashboard (FR-003)', () {
+    test('returns the stored board; an unknown id raises the typed error',
+        () async {
+      final repository = repositoryForTest();
+      await repository.create(Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      ));
+      final useCase = GetDashboardUseCase(repository);
+
+      final board = await useCase.execute(
+        const GetDashboardParams(id: kMain),
+        null,
+      );
+      expect(board.id, kMain, reason: 'the stored board is returned');
+
+      await expectLater(
+        useCase.execute(const GetDashboardParams(id: 'missing'), null),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown id raises the typed not-found error',
+      );
+    });
+  });
 }
