@@ -290,3 +290,14 @@ test existed and failed before the implementation.
   (Result-wrapping) syntax to plain `execute()` to keep the facade's
   Future<T> contract
 - commit: (this commit)
+
+## Cycle 22: U13 injected port/repository win over the defaults
+
+- test: `test/dashboard_test.dart::di (FR-004) injected port and repository
+  win over the defaults` (new)
+- first-run pass -> deliberate-mutant check: the registration mutated to
+  ignore the injected `port` -> `Expected: true / Actual: <false>` (the
+  injected-port identity check) caught; restored via git checkout
+- green: suite -> 22 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

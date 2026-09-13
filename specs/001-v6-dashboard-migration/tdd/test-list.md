@@ -67,7 +67,7 @@ checks over the shipped artifacts.
 | id  | behavior                                                                                      | traces     | kind             | state   | test |
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
 | U12 | `registerDashboardDependencies(getIt)` resolves port, repository, all nine use cases, and the service; the default port is `InMemoryDashboardAdapter` | FR-004 | example     | DONE | `test/dashboard_test.dart::registration wires port, repository, use cases…` |
-| U13 | Injected `port:`/`repository:` arguments win over the defaults                                | FR-004     | example          | PENDING |      |
+| U13 | Injected `port:`/`repository:` arguments win over the defaults                                | FR-004     | example          | DONE | `test/dashboard_test.dart::injected port and repository win over the defaults` |
 | U29 | `setPlatformDashboardPortFactory(...)` switches the DI default port to the registered factory's product | FR-007 | example     | PENDING |      |
 
 ### `packages/zuraffa_dashboard/lib/src/domain/usecases/` (FR-003)

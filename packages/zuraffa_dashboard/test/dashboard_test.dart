@@ -359,5 +359,15 @@ void main() {
       );
       expect(board.id, 'wired', reason: 'the service journey works end to end');
     });
+
+    test('injected port and repository win over the defaults', () async {
+      final getIt = GetIt.asNewInstance();
+      final customPort = InMemoryDashboardAdapter();
+      registerDashboardDependencies(getIt, port: customPort);
+
+      final port = getIt<DashboardPort>();
+      expect(identical(port, customPort), isTrue,
+          reason: 'the injected port is registered verbatim');
+    });
   });
 }
