@@ -358,3 +358,16 @@ test existed and failed before the implementation.
   decode through `DashboardWire.decodeLayouts`. Suite -> 3 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 27: U26 saveLayout sends the documented method with [id, tiles]
+
+- test: `platform_interface_test.dart::method channel (FR-006) saveLayout
+  sends the documented method with [id, tiles] args` (new, contract)
+- red: `flutter test` -> test compile error (`[]` on Object? — a test
+  syntax slip fixed before the run; the behavior itself was implemented in
+  cycle 26, so this cycle's validity rests on the mutant below)
+- mutant check: method name mutated to 'saveLayoutMutant' -> this test
+  fails (`+3 -1`), others stay green; restored via git checkout
+- green: suite -> 4 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)

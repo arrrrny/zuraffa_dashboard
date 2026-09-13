@@ -61,5 +61,42 @@ void main() {
       expect((layouts[kMain]!.first as Map)['id'], kTile,
           reason: 'the wire tile survives the trip');
     });
+
+    test('saveLayout sends the documented method with [id, tiles] args',
+        () async {
+      var receivedMethod = '';
+      var receivedArgs = <Object?>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(MethodChannelZuraffaDashboard.channel,
+              (call) async {
+        receivedMethod = call.method;
+        receivedArgs = call.arguments as List<Object?>;
+        return null;
+      });
+      addTearDown(() {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+                MethodChannelZuraffaDashboard.channel, null);
+      });
+
+      final platform = MethodChannelZuraffaDashboard();
+      await platform.saveLayout(kMain, const [
+        {
+          'id': kTile,
+          'type': 'chart.sales',
+          'title': 'Sales',
+          'placement': {'row': 0, 'column': 0, 'rowSpan': 1, 'colSpan': 1},
+          'enabled': true,
+          'config': <String, Object?>{},
+        },
+      ]);
+
+      expect(receivedMethod, 'saveLayout', reason: 'the documented method');
+      expect(receivedArgs, hasLength(2), reason: '[id, tiles] travel as a pair');
+      expect(receivedArgs.first, kMain, reason: 'the dashboard id leads');
+      final wireTiles = receivedArgs.last as List<Object?>;
+      expect((wireTiles.first as Map)['id'], kTile,
+          reason: 'the wire tiles are forwarded untouched');
+    });
   });
 }
