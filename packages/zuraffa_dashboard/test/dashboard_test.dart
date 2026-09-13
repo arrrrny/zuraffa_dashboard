@@ -49,5 +49,59 @@ void main() {
       expect(tile.enabled, isTrue, reason: 'enabled is carried');
       expect(tile.config['metric'], 'revenue', reason: 'config is carried');
     });
+
+    test('tile placement guards its boundaries on construction', () {
+      final atOrigin = TilePlacement.create(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      expect(atOrigin.row, 0, reason: 'row 0 is the top boundary and valid');
+      expect(atOrigin.column, 0, reason: 'column 0 is the left boundary');
+      expect(atOrigin.rowSpan, 1, reason: 'rowSpan 1 is the minimum');
+      expect(atOrigin.colSpan, 1, reason: 'colSpan 1 is the minimum');
+
+      expect(
+        () => TilePlacement.create(
+          row: -1,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'row below 0 is rejected',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: -1,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'column below 0 is rejected',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 0,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'rowSpan 0 is below the minimum 1',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 0,
+        ),
+        throwsArgumentError,
+        reason: 'colSpan 0 is below the minimum 1',
+      );
+    });
   });
 }

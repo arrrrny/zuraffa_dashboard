@@ -45,3 +45,14 @@ test existed and failed before the implementation.
   entity (`@Zorphy(generateCompareTo: true)` + codegen, hand stub removed);
   suite re-run green after the upgrade
 - commit: (this commit)
+
+## Cycle 3: U3 tile placement guards its boundaries on construction
+
+- test: `test/dashboard_test.dart::entities (FR-001) tile placement guards
+  its boundaries on construction` (new)
+- red: `dart test` -> `Error: Member not found: 'TilePlacement.create'.`
+- green: added the static `TilePlacement.create` guard (row/column >= 0,
+  rowSpan/colSpan >= 1; both sides of each boundary asserted). Suite ->
+  3 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

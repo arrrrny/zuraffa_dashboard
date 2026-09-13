@@ -42,7 +42,7 @@ checks over the shipped artifacts.
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
 | U1  | `Dashboard` constructs from required fields (id, title, owner, tiles, isDefault) and carries them | FR-001     | example          | DONE    | `test/dashboard_test.dart::dashboard constructs from required fields and carries them` |
 | U2  | `DashboardTile` constructs from required fields (id, type, title, placement, enabled, config) and carries them | FR-001 | example     | DONE    | `test/dashboard_test.dart::dashboard tile constructs from required fields and carries them` |
-| U3  | `TilePlacement` guards its boundaries on construction via `create`: row/column 0 valid and −1 rejected; rowSpan/colSpan 1 valid and 0 rejected | FR-001 | example | PENDING |      |
+| U3  | `TilePlacement` guards its boundaries on construction via `create`: row/column 0 valid and −1 rejected; rowSpan/colSpan 1 valid and 0 rejected | FR-001 | example | DONE | `test/dashboard_test.dart::tile placement guards its boundaries on construction` |
 | U4  | JSON round-trip preserves all three entities (sampled at field boundaries; no property lib installed) | FR-001 | property (sampled) | PENDING |      |
 | U5  | Zorphy companions hold identity semantics: copyWith changes only the targeted field; equal instances compare equal | FR-001 | example     | PENDING |      |
 
