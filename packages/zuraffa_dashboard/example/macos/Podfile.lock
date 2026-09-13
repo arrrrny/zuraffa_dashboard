@@ -1,0 +1,22 @@
+PODS:
+  - FlutterMacOS (1.0.0)
+  - zuraffa_dashboard_macos (1.0.0):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - zuraffa_dashboard_macos (from `Flutter/ephemeral/.symlinks/plugins/zuraffa_dashboard_macos/macos`)
+
+EXTERNAL SOURCES:
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  zuraffa_dashboard_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/zuraffa_dashboard_macos/macos
+
+SPEC CHECKSUMS:
+  FlutterMacOS: c232990155153907050900a2e175c7773903ba4e
+  zuraffa_dashboard_macos: 71296b2d2cca7f0d65611dc107c70676c95a305c
+
+PODFILE CHECKSUM: 1e95c36afbfd1cb6423ceca4de7a8e1b256fb6ac
+
+COCOAPODS: 1.17.0

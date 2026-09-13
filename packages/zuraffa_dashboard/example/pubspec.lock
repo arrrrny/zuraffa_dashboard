@@ -784,28 +784,28 @@ packages:
     source: path
     version: "6.2.2"
   zuraffa_dashboard_android:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../zuraffa_dashboard_android"
       relative: true
     source: path
     version: "6.2.2"
   zuraffa_dashboard_ios:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../zuraffa_dashboard_ios"
       relative: true
     source: path
     version: "6.2.2"
   zuraffa_dashboard_macos:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../zuraffa_dashboard_macos"
       relative: true
     source: path
     version: "6.2.2"
   zuraffa_dashboard_platform_interface:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../../zuraffa_dashboard_platform_interface"
       relative: true
