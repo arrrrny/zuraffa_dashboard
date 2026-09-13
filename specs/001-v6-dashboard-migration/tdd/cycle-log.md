@@ -333,3 +333,16 @@ test existed and failed before the implementation.
   0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 25: U24 default instance writes complete without error (no-ops)
+
+- test: `platform_interface_test.dart::default platform instance (FR-006)
+  default instance writes complete without error (no-ops)` (new)
+- first-run pass -> deliberate-mutant check: default saveLayout made to
+  throw UnimplementedError -> `+1 -1: Some tests failed` on exactly this
+  test; restored via git checkout (a first grep of the mutant run printed
+  nothing due to a pattern miss — the run was repeated and the catch is
+  recorded above)
+- green: suite -> 2 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)

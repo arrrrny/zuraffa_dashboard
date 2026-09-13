@@ -18,5 +18,14 @@ void main() {
       expect(layouts, isEmpty,
           reason: 'no platform package registered -> nothing persisted');
     });
+
+    test('default instance writes complete without error (no-ops)', () async {
+      final platform = DefaultZuraffaDashboardPlatform();
+      await platform.saveLayout(kMain, const []);
+      await platform.removeLayout(kMain);
+      await platform.removeAll();
+      expect(await platform.loadLayouts(), isEmpty,
+          reason: 'writes stay no-ops on the default instance');
+    });
   });
 }
