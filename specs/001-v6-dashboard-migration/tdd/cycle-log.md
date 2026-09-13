@@ -88,3 +88,18 @@ test existed and failed before the implementation.
 - green: suite `dart test` -> 5 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 6: U6 repository create->get; unknown id raises typed not-found
+
+- test: `test/dashboard_test.dart::repository (FR-002) create then get
+  returns the stored dashboard; unknown id raises typed not-found` (new)
+- red: `dart test` -> `Method not found: 'InMemoryDashboardStore'` /
+  `'InMemoryDashboardDataSource'` / `'DataDashboardRepository'` /
+  `'DashboardNotFoundException' isn't a type`
+- green: added the typed error subclasses (ZuraffaPlatformException with
+  stable codes), `DashboardDataSource` contract, `InMemoryDashboardStore`
+  + `InMemoryDashboardDataSource` (sibling mixin idiom: with Loggable,
+  FailureHandler), `DashboardRepository`, `DataDashboardRepository`, and
+  the barrel exports. Suite -> 6 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

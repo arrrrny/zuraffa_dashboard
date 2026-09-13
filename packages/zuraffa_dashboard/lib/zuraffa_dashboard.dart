@@ -21,8 +21,12 @@ library;
 
 export 'package:zuraffa/zuraffa.dart' show GetIt;
 
+export 'src/data/datasources/dashboard_store/in_memory_dashboard_store.dart';
+export 'src/data/repositories/data_dashboard_repository.dart';
 export 'src/domain/entities/dashboard/dashboard.dart';
 export 'src/domain/entities/dashboard_tile/dashboard_tile.dart';
 export 'src/domain/entities/tile_placement/tile_placement.dart';
+export 'src/domain/errors/dashboard_errors.dart';
+export 'src/domain/repositories/dashboard_repository.dart';
 
 // Layers land with their tasks; the export list completes at T026/T031.

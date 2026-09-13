@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+import 'package:zuraffa/zuraffa.dart' show QueryParams;
 import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
 
 /// Named identifiers reused across tests so a typo fails a compile rather
@@ -193,6 +194,33 @@ void main() {
       expect(tileB.id, kTile, reason: 'tile copyWith keeps id');
       expect(identical(tileB.config, config), isTrue,
           reason: 'tile copyWith keeps the config reference');
+    });
+  });
+
+  group('repository (FR-002)', () {
+    test('create then get returns the stored dashboard; unknown id raises typed not-found',
+        () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      final dashboard = Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      );
+
+      await repository.create(dashboard);
+      final loaded =
+          await repository.get(QueryParams<Dashboard>(params: {'id': kMain}));
+      expect(loaded.id, kMain, reason: 'create stores under the entity id');
+      expect(loaded.title, 'Main', reason: 'stored fields survive');
+
+      await expectLater(
+        repository.get(const QueryParams<Dashboard>(params: {'id': 'missing'})),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown id raises the typed not-found error',
+      );
     });
   });
 }
