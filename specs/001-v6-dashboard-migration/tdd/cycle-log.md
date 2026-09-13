@@ -403,3 +403,19 @@ test existed and failed before the implementation.
   the correct implementation was rewritten and the suite re-verified
 - green: suite -> 6 passed, 0 failed; flutter analyze clean
 - commit: (this commit)
+
+## Cycle 30: A1 host journey through the public API; fresh service restores
+
+- test: `test/dashboard_test.dart::acceptance: host journey (SC-002,
+  FR-004) a host drives the full journey through the public API and a
+  fresh service restores the moved layout` (new, integration-style over
+  the composed modules — the highest level the repo can run honestly)
+- red (behavioral): the journey first passed the board captured at create
+  time into save(), clobbering the moved layout -> `Expected: an object
+  with length of <1> / Actual: []`. The API's intended usage chains the
+  board returned by each mutating call; the journey was corrected to do
+  so (var board = ...; board = await addTile(...); board = await
+  moveTile(...); save(board)) — a test-journey fix, no assertion weakened
+- green: suite -> 24 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

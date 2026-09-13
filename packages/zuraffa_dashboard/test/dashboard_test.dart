@@ -382,4 +382,55 @@ void main() {
       setPlatformDashboardPortFactory(null);
     });
   });
+
+  group('acceptance: host journey (SC-002, FR-004)', () {
+    test('a host drives the full journey through the public API and a fresh service restores the moved layout',
+        () async {
+      // One shared store; two service lifetimes over it (app restart).
+      final store = InMemoryDashboardStore();
+      DashboardService serviceFor() {
+        final getIt = GetIt.asNewInstance();
+        final repository =
+            DataDashboardRepository(InMemoryDashboardDataSource(store));
+        registerDashboardDependencies(getIt, repository: repository);
+        return getIt<DashboardService>();
+      }
+
+      // Boot 1: register, create, add, move, save.
+      final first = serviceFor();
+      var board = await first.create(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+      );
+      board = await first.addTile(
+        kMain,
+        DashboardTile(
+          id: kTile,
+          type: 'chart.sales',
+          title: 'Sales',
+          placement: TilePlacement.create(
+            row: 0,
+            column: 0,
+            rowSpan: 1,
+            colSpan: 2,
+          ),
+          enabled: true,
+          config: {'metric': 'revenue'},
+        ),
+      );
+      board = await first.moveTile(kMain, kTile, row: 2, column: 3);
+      await first.save(board);
+
+      // Boot 2: a fresh service over the same store restores the journey.
+      final second = serviceFor();
+      final restored = await second.get(kMain);
+      expect(restored.tiles, hasLength(1), reason: 'the tile persists');
+      expect(restored.tiles.first.placement.row, 2, reason: 'the move persists');
+      expect(restored.tiles.first.placement.column, 3,
+          reason: 'the column persists');
+      expect(await second.list(kOwner), hasLength(1),
+          reason: 'the owner sees the board');
+    });
+  });
 }
