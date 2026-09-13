@@ -221,3 +221,8 @@ platform package.
 - The tdd loop owns every behavior task above; `speckit-implement` owns the
   rest (scaffolds, native glue, docs, scripts).
 - Commit after each phase checkpoint.
+
+## Phase 10: TDD remediation (from verification.md — PASS_WITH_GAPS)
+
+- [ ] T053 [MEDIUM #1] Pin error metadata: assert the `ArgumentError` argument `name` (`row`/`column`/`rowSpan`/`colSpan`) in `packages/zuraffa_dashboard/test/dashboard_test.dart` boundary tests, killing the `builtin.function.arg3` survivors; prove with a scoped mutation run on `tile_placement.dart`
+- [ ] T054 [MEDIUM #2] Widen mutation scope: run `dart run mutation_test` over the remaining use-case/service files in `packages/zuraffa_dashboard`, triage survivors, and record the score in `specs/001-v6-dashboard-migration/tdd/verification.md`
