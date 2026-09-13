@@ -259,3 +259,18 @@ test existed and failed before the implementation.
   Suite -> 19 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 20: U22 ResetDashboardUseCase restores default template; no template clears
+
+- test: `test/usecases_test.dart::reset dashboard (FR-003) restores the
+  default template tiles; without a template clears` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'ResetDashboardUseCase'` / `'ResetDashboardParams'`
+- test-logic fix before green: the "no template" scenario wrongly reused an
+  owner whose template still existed; rewritten to a board owned by a
+  template-less user (the template lookup is per-owner by design)
+- green: `ResetDashboardUseCase` (+ Params) — owner's `isDefault` board
+  provides the canonical tiles; port layout mirrored. Suite -> 20 passed,
+  0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

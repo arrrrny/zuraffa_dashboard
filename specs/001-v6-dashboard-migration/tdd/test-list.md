@@ -82,7 +82,7 @@ checks over the shipped artifacts.
 | U19 | `MoveTileUseCase` updates row and column; an unknown tile id raises `TileNotFoundException`   | FR-003     | example          | DONE | `test/usecases_test.dart::updates row and column…` |
 | U20 | `ResizeTileUseCase` updates spans (span 1 valid, 0 rejected); unknown tile → `TileNotFoundException` | FR-003 | example          | DONE | `test/usecases_test.dart::updates spans with boundary enforcement…` |
 | U21 | `SaveDashboardUseCase` persists through the repository and the port                           | FR-003     | example          | DONE | `test/usecases_test.dart::persists the board through the repository and the port` |
-| U22 | `ResetDashboardUseCase` restores the default template tiles for the dashboard                 | FR-003     | example          | PENDING |      |
+| U22 | `ResetDashboardUseCase` restores the default template tiles for the dashboard                 | FR-003     | example          | DONE | `test/usecases_test.dart::restores the default template tiles…` |
 
 ### `packages/zuraffa_dashboard_platform_interface/lib/src/` (FR-006, FR-007)
 

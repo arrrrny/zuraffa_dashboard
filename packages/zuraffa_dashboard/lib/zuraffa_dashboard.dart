@@ -38,5 +38,6 @@ export 'src/domain/usecases/dashboard/remove_tile_usecase.dart';
 export 'src/domain/usecases/dashboard/move_tile_usecase.dart';
 export 'src/domain/usecases/dashboard/resize_tile_usecase.dart';
 export 'src/domain/usecases/dashboard/save_dashboard_usecase.dart';
+export 'src/domain/usecases/dashboard/reset_dashboard_usecase.dart';
 
 // Layers land with their tasks; the export list completes at T026/T031.

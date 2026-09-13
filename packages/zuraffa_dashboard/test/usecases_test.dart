@@ -383,4 +383,84 @@ void main() {
       expect(layouts[kMain]!.first.id, kTile, reason: 'layout tile intact');
     });
   });
+
+  group('reset dashboard (FR-003)', () {
+    test('restores the default template tiles; without a template clears',
+        () async {
+      final repository = repositoryForTest();
+      final port = InMemoryDashboardAdapter();
+
+      // The owner's default template carries one canonical tile.
+      final template = Dashboard(
+        id: 'template',
+        title: 'Template',
+        owner: kOwner,
+        tiles: [
+          DashboardTile(
+            id: 'tile.default',
+            type: 'chart.revenue',
+            title: 'Revenue',
+            placement: TilePlacement.create(
+              row: 0,
+              column: 0,
+              rowSpan: 1,
+              colSpan: 2,
+            ),
+            enabled: true,
+            config: const {},
+          ),
+        ],
+        isDefault: true,
+      );
+      await repository.create(template);
+
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 3,
+          column: 3,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        enabled: true,
+        config: const {},
+      );
+      await AddTileUseCase(repository).execute(
+        AddTileParams(dashboardId: kMain, tile: tile),
+        null,
+      );
+      final useCase = ResetDashboardUseCase(repository, port);
+
+      final reset = await useCase.execute(
+        ResetDashboardParams(dashboardId: kMain),
+        null,
+      );
+      expect(reset.tiles, hasLength(1), reason: 'template tiles restored');
+      expect(reset.tiles.first.id, 'tile.default',
+          reason: 'the canonical tile is restored');
+      expect(reset.id, kMain, reason: 'the board keeps its identity');
+
+      final layouts = await port.loadLayouts();
+      expect(layouts[kMain]!.first.id, 'tile.default',
+          reason: 'the port layout mirrors the reset (stale custom tile gone)');
+
+      // A board whose owner has NO template resets to empty tiles.
+      await create.execute(
+        const CreateDashboardParams(id: 'solo', title: 'Solo', owner: 'user-2'),
+        null,
+      );
+      final bare = await useCase.execute(
+        const ResetDashboardParams(dashboardId: 'solo'),
+        null,
+      );
+      expect(bare.tiles, isEmpty, reason: 'no template -> empty board');
+    });
+  });
 }
