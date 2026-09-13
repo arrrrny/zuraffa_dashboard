@@ -2,13 +2,21 @@
 
 ---
 feature: 001-v6-dashboard-migration
-loop: outside-in
+loop: inside-out
 profile: .specify/memory/tdd-profile.md
 spec_criteria: 4
 planned_at: 947cdab
-updated_at: 947cdab
+updated_at: 86e4a7f
 suite_baseline: green
 ---
+
+> Loop mode: the template classifies a **pure library** as inside-out — this
+> package is exactly that. Acceptance behaviors A1/A2 are integration-style
+> suites over the composed modules and run after their units are DONE (the
+> run skill's outer-loop closing rule); A3–A5 are artifact contract checks.
+> Planning-time wording of U1–U3 was tightened before the first cycle
+> (Zorphy generates plain immutable classes; validation lives in the
+> `TilePlacement.create` guard and the use cases), ids and traces unchanged.
 
 ## Outer loop: acceptance behaviors
 
@@ -32,9 +40,9 @@ checks over the shipped artifacts.
 
 | id  | behavior                                                                                      | traces     | kind             | state   | test |
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
-| U1  | `Dashboard` constructs from required fields; empty id/title/owner are rejected                | FR-001     | example          | PENDING |      |
-| U2  | `DashboardTile` constructs from required fields; empty id/type/title are rejected             | FR-001     | example          | PENDING |      |
-| U3  | `TilePlacement` boundaries: row/column 0 valid and −1 rejected; rowSpan/colSpan 1 valid and 0 rejected | FR-001 | example          | PENDING |      |
+| U1  | `Dashboard` constructs from required fields (id, title, owner, tiles, isDefault) and carries them | FR-001     | example          | DONE    | `test/dashboard_test.dart::dashboard constructs from required fields and carries them` |
+| U2  | `DashboardTile` constructs from required fields (id, type, title, placement, enabled, config) and carries them | FR-001 | example     | PENDING |      |
+| U3  | `TilePlacement` guards its boundaries on construction via `create`: row/column 0 valid and −1 rejected; rowSpan/colSpan 1 valid and 0 rejected | FR-001 | example | PENDING |      |
 | U4  | JSON round-trip preserves all three entities (sampled at field boundaries; no property lib installed) | FR-001 | property (sampled) | PENDING |      |
 | U5  | Zorphy companions hold identity semantics: copyWith changes only the targeted field; equal instances compare equal | FR-001 | example     | PENDING |      |
 

@@ -13,3 +13,18 @@ test existed and failed before the implementation.
   scaffold it exercises is replaced by the federated package layout); a new
   baseline over `packages/zuraffa_dashboard` (`dart test`, empty suite) is
   recorded after the Foundational phase before the first red.
+
+## Cycle 1: U1 dashboard constructs from required fields and carries them
+
+- test: `test/dashboard_test.dart::entities (FR-001) dashboard constructs
+  from required fields and carries them` (new)
+- red: `dart test test/dashboard_test.dart`
+  -> `Error: Method not found: 'Dashboard'.` (symbol absent; per playbook
+  the language-level missing symbol is the pre-stub state — implementation
+  declared the entity and its companions, then this test ran to green)
+- green: entity `$Dashboard` annotated `@Zorphy(generateCompareTo: true)` +
+  codegen (`dart run build_runner build`); `DashboardTile`/`TilePlacement`
+  declared as plain stubs so the signature resolves (their behaviors are
+  U2/U3). Suite `dart test` -> 1 passed, 0 failed; `dart analyze` clean
+- refactor: none needed
+- commit: (this commit)
