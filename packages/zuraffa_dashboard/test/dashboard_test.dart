@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:zuraffa/zuraffa.dart' show QueryParams;
+import 'package:zuraffa/zuraffa.dart' show ListQueryParams, QueryParams;
 import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
 
 /// Named identifiers reused across tests so a typo fails a compile rather
@@ -221,6 +221,53 @@ void main() {
         throwsA(isA<DashboardNotFoundException>()),
         reason: 'an unknown id raises the typed not-found error',
       );
+    });
+
+    test('getList filters by owner; non-matching owner yields an empty list',
+        () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      await repository.create(Dashboard(
+        id: 'a',
+        title: 'A',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      ));
+      await repository.create(Dashboard(
+        id: 'b',
+        title: 'B',
+        owner: 'user-2',
+        tiles: const [],
+        isDefault: false,
+      ));
+
+      final mine = await repository.getList(
+        ListQueryParams<Dashboard>(params: {'owner': kOwner}),
+      );
+      expect(mine, hasLength(1), reason: 'only the owner dashboards return');
+      expect(mine.first.id, 'a', reason: 'the matching dashboard is returned');
+
+      final theirs = await repository.getList(
+        ListQueryParams<Dashboard>(params: {'owner': 'nobody'}),
+      );
+      expect(theirs, isEmpty, reason: 'unknown owner yields an empty list');
+    });
+
+    test('store clear() empties every stored dashboard', () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      await repository.create(Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      ));
+      expect(store.dashboards, hasLength(1), reason: 'precondition: stored');
+
+      store.clear();
+      expect(store.dashboards, isEmpty, reason: 'clear() empties the store');
     });
   });
 }

@@ -51,8 +51,8 @@ checks over the shipped artifacts.
 | id  | behavior                                                                                      | traces     | kind             | state   | test |
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
 | U6  | Repository create→get returns the stored dashboard; unknown id raises the typed not-found error | FR-002    | example          | DONE | `test/dashboard_test.dart::create then get returns the stored dashboard…` |
-| U7  | Repository getList filters by owner; a non-matching owner returns an empty list (both sides)  | FR-002     | example          | PENDING |      |
-| U8  | `InMemoryDashboardStore.clear()` empties every stored dashboard                               | FR-002     | example          | PENDING |      |
+| U7  | Repository getList filters by owner; a non-matching owner returns an empty list (both sides)  | FR-002     | example          | DONE | `test/dashboard_test.dart::getList filters by owner…` |
+| U8  | `InMemoryDashboardStore.clear()` empties every stored dashboard                               | FR-002     | example          | DONE | `test/dashboard_test.dart::store clear() empties every stored dashboard` |
 
 ### `packages/zuraffa_dashboard/lib/src/data/dashboard/` (FR-005)
 

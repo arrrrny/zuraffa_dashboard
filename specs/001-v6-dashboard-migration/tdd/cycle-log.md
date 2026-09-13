@@ -103,3 +103,28 @@ test existed and failed before the implementation.
   the barrel exports. Suite -> 6 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 7: U7 getList filters by owner; non-matching owner yields empty
+
+- test: `test/dashboard_test.dart::repository (FR-002) getList filters by
+  owner; non-matching owner yields an empty list` (new)
+- red: `dart test` -> `Error: Method not found: 'ListQueryParams'` (test
+  import gap; fixed the test's zuraffa show clause, then the behavior ran)
+- first-run pass (the owner filter shipped with U6's datasource) ->
+  deliberate-mutant check: filter body replaced with `return all` ->
+  `Expected: an object with length of <1>` failure; restored via git
+  checkout, suite green
+- green: suite -> 7 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)
+
+## Cycle 8: U8 store clear() empties every stored dashboard
+
+- test: `test/dashboard_test.dart::repository (FR-002) store clear()
+  empties every stored dashboard` (new)
+- first-run pass -> deliberate-mutant check: `clear()` body replaced with
+  a no-op -> `Expected: empty / Actual: {…}` failure; restored via git
+  checkout, suite green
+- green: suite -> 8 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)
