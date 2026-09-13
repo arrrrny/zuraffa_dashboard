@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
 import 'package:zuraffa_dashboard_platform_interface/zuraffa_dashboard_platform_interface.dart';
@@ -26,6 +27,39 @@ void main() {
       await platform.removeAll();
       expect(await platform.loadLayouts(), isEmpty,
           reason: 'writes stay no-ops on the default instance');
+    });
+  });
+
+  group('method channel (FR-006)', () {
+    test('loadLayouts decodes the wire map into per-id tile lists', () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(MethodChannelZuraffaDashboard.channel,
+              (call) async {
+        expect(call.method, 'loadLayouts', reason: 'the documented method');
+        return {
+          kMain: [
+            {
+              'id': kTile,
+              'type': 'chart.sales',
+              'title': 'Sales',
+              'placement': {'row': 0, 'column': 0, 'rowSpan': 1, 'colSpan': 2},
+              'enabled': true,
+              'config': {'metric': 'revenue'},
+            },
+          ],
+        };
+      });
+      addTearDown(() {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+                MethodChannelZuraffaDashboard.channel, null);
+      });
+
+      final platform = MethodChannelZuraffaDashboard();
+      final layouts = await platform.loadLayouts();
+      expect(layouts[kMain], hasLength(1), reason: 'the layout is decoded');
+      expect((layouts[kMain]!.first as Map)['id'], kTile,
+          reason: 'the wire tile survives the trip');
     });
   });
 }

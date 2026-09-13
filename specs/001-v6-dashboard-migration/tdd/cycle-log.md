@@ -346,3 +346,15 @@ test existed and failed before the implementation.
 - green: suite -> 2 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 26: U25 MethodChannel loadLayouts decodes the wire map
+
+- test: `platform_interface_test.dart::method channel (FR-006) loadLayouts
+  decodes the wire map into per-id tile lists` (new, contract, mocked
+  binary messenger)
+- red: `flutter test` -> `Undefined name 'MethodChannelZuraffaDashboard'`
+  (file declared empty ahead of this cycle)
+- green: `MethodChannelZuraffaDashboard` — documented method names, wire
+  decode through `DashboardWire.decodeLayouts`. Suite -> 3 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)
