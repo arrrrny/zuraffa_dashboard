@@ -64,4 +64,34 @@ void main() {
       );
     });
   });
+
+  group('list dashboards (FR-003)', () {
+    test('lists the owner dashboards; an unknown owner yields an empty list',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: 'a', title: 'A', owner: kOwner),
+        null,
+      );
+      await create.execute(
+        const CreateDashboardParams(id: 'b', title: 'B', owner: 'user-2'),
+        null,
+      );
+      final useCase = ListDashboardsUseCase(repository);
+
+      final mine = await useCase.execute(
+        const ListDashboardsParams(owner: kOwner),
+        null,
+      );
+      expect(mine, hasLength(1), reason: 'only the owner boards return');
+      expect(mine.first.id, 'a', reason: 'the matching board is returned');
+
+      final theirs = await useCase.execute(
+        const ListDashboardsParams(owner: 'nobody'),
+        null,
+      );
+      expect(theirs, isEmpty, reason: 'unknown owner yields an empty list');
+    });
+  });
 }

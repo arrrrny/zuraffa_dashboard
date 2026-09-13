@@ -176,3 +176,14 @@ test existed and failed before the implementation.
 - refactor: removed the test's direct src import once the barrel exported
   the use case (analyze clean)
 - commit: (this commit)
+
+## Cycle 13: U15 ListDashboardsUseCase filters by owner; unknown owner empty
+
+- test: `test/usecases_test.dart::list dashboards (FR-003) lists the owner
+  dashboards; an unknown owner yields an empty list` (new)
+- red: `dart test test/usecases_test.dart` -> 4 compile errors (missing
+  `ListDashboardsUseCase` / `ListDashboardsParams`)
+- green: `ListDashboardsUseCase` (+ Params) delegating to the repository's
+  owner-filtered getList. Suite -> 13 passed, 0 failed
+- refactor: removed the direct src import once the barrel exported it
+- commit: (this commit)
