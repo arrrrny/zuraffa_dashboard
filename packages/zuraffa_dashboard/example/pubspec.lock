@@ -782,35 +782,35 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
   zuraffa_dashboard_android:
     dependency: "direct overridden"
     description:
       path: "../../zuraffa_dashboard_android"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
   zuraffa_dashboard_ios:
     dependency: "direct overridden"
     description:
       path: "../../zuraffa_dashboard_ios"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
   zuraffa_dashboard_macos:
     dependency: "direct overridden"
     description:
       path: "../../zuraffa_dashboard_macos"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
   zuraffa_dashboard_platform_interface:
     dependency: "direct overridden"
     description:
       path: "../../zuraffa_dashboard_platform_interface"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
 sdks:
   dart: ">=3.13.3 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
