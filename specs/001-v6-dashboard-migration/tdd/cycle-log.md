@@ -128,3 +128,15 @@ test existed and failed before the implementation.
 - green: suite -> 8 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 9: U9 in-memory adapter save->load round-trips the tile list
+
+- test: `test/dashboard_test.dart::port (FR-005) in-memory adapter save
+  then load round-trips the tile list` (new)
+- red: `dart test` -> `Error: Method not found: 'InMemoryDashboardAdapter'`
+  (after fixing a brace imbalance introduced while appending the test —
+  syntax fix, not a green run)
+- green: `DashboardPort` contract + `InMemoryDashboardAdapter` (unmodifiable
+  snapshot semantics) + barrel export. Suite -> 9 passed, 0 failed
+- refactor: fixed a wrong relative import flagged by `dart analyze`
+- commit: (this commit)

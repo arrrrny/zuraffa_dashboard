@@ -270,4 +270,36 @@ void main() {
       expect(store.dashboards, isEmpty, reason: 'clear() empties the store');
     });
   });
+
+  group('port (FR-005)', () {
+    test('in-memory adapter save then load round-trips the tile list',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      final tiles = [
+        DashboardTile(
+          id: kTile,
+          type: 'chart.sales',
+          title: 'Sales',
+          placement: TilePlacement.create(
+            row: 0,
+            column: 0,
+            rowSpan: 1,
+            colSpan: 2,
+          ),
+          enabled: true,
+          config: const {'metric': 'revenue'},
+        ),
+      ];
+
+      await port.saveLayout(kMain, tiles);
+      final loaded = await port.loadLayouts();
+      expect(loaded[kMain], hasLength(1), reason: 'the layout is stored');
+      expect(loaded[kMain]!.first.id, kTile, reason: 'tile survives save');
+      expect(
+        loaded[kMain]!.first.placement.colSpan,
+        2,
+        reason: 'tile placement survives save',
+      );
+    });
+  });
 }
