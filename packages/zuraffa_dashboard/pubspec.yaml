@@ -1,6 +1,6 @@
 name: zuraffa_dashboard
 description: Typed, persistence-backed dashboard layouts for the Zuraffa ecosystem.
-version: 1.0.0
+version: 6.2.2
 homepage: https://zuraffa.com
 
 environment:
