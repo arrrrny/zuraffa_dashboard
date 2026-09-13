@@ -419,3 +419,14 @@ test existed and failed before the implementation.
 - green: suite -> 24 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 31: A2 composed stack without a platform package answers safely
+
+- test: `adapter_test.dart::composed stack without a platform package
+  answers every call safely` (new, integration-style)
+- first-run pass — the safety contract is exactly what U23/U24's default
+  instance implements (its strength was proven by the U23/U24 mutants on
+  the same code path)
+- green: platform-interface suite -> 7 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)

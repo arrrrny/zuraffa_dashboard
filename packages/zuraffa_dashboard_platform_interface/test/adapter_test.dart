@@ -76,5 +76,19 @@ void main() {
       expect((savedTiles.first as Map)['id'], kTile,
           reason: 'typed tiles encode back to wire');
     });
+
+    test('composed stack without a platform package answers every call safely',
+        () async {
+      // No federated registration: the adapter wraps the DEFAULT platform
+      // instance; the composed core stack must answer everything.
+      final adapter = MethodChannelDashboardAdapter();
+      expect(await adapter.loadLayouts(), isEmpty,
+          reason: 'nothing persisted before a platform registers');
+      await adapter.saveLayout(kMain, const []);
+      await adapter.removeLayout(kMain);
+      await adapter.removeAll();
+      expect(await adapter.loadLayouts(), isEmpty,
+          reason: 'still empty, never a crash');
+    });
   });
 }
