@@ -301,5 +301,31 @@ void main() {
         reason: 'tile placement survives save',
       );
     });
+
+    test('loading an absent dashboard id returns an empty map without throwing',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      final loaded = await port.loadLayouts();
+      expect(loaded, isEmpty,
+          reason: 'nothing persisted -> empty map, no throw');
+      expect(loaded.containsKey('nope'), isFalse,
+          reason: 'absent ids are simply missing');
+    });
+
+    test('removeLayout is a no-op for absent ids; removeAll clears everything',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      await port.saveLayout('a', const []);
+      await port.saveLayout('b', const []);
+
+      await port.removeLayout('missing');
+      final afterAbsentRemove = await port.loadLayouts();
+      expect(afterAbsentRemove.keys, containsAll(['a', 'b']),
+          reason: 'removing an absent id changes nothing');
+
+      await port.removeAll();
+      final afterRemoveAll = await port.loadLayouts();
+      expect(afterRemoveAll, isEmpty, reason: 'removeAll clears every layout');
+    });
   });
 }

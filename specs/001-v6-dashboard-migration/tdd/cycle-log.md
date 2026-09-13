@@ -140,3 +140,24 @@ test existed and failed before the implementation.
   snapshot semantics) + barrel export. Suite -> 9 passed, 0 failed
 - refactor: fixed a wrong relative import flagged by `dart analyze`
 - commit: (this commit)
+
+## Cycle 10: U10 loading an absent dashboard id returns empty without throwing
+
+- test: `test/dashboard_test.dart::port (FR-005) loading an absent
+  dashboard id returns an empty map without throwing` (new)
+- first-run pass -> deliberate-mutant check: loadLayouts made to return a
+  synthetic `{'nope': []}` entry on empty state -> `Expected: empty /
+  Actual: {'nope': []}` caught; restored via git checkout
+- green: suite -> 10 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)
+
+## Cycle 11: U11 removeLayout no-op for absent ids; removeAll clears everything
+
+- test: `test/dashboard_test.dart::port (FR-005) removeLayout is a no-op
+  for absent ids; removeAll clears everything` (new)
+- first-run pass -> deliberate-mutant check: removeAll replaced with a
+  no-op -> `Expected: empty` caught; restored via git checkout
+- green: suite -> 11 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

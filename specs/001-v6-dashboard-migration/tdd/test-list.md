@@ -59,8 +59,8 @@ checks over the shipped artifacts.
 | id  | behavior                                                                                      | traces     | kind             | state   | test |
 | --- | --------------------------------------------------------------------------------------------- | ---------- | ---------------- | ------- | ---- |
 | U9  | `InMemoryDashboardAdapter` save→load round-trips the tile list                                | FR-005     | example          | DONE | `test/dashboard_test.dart::in-memory adapter save then load round-trips the tile list` |
-| U10 | Loading an absent dashboard id returns an empty result without throwing                       | FR-005     | example          | PENDING |      |
-| U11 | `removeLayout` is a no-op for an absent id; `removeAll` clears every layout                   | FR-005     | example          | PENDING |      |
+| U10 | Loading an absent dashboard id returns an empty result without throwing                       | FR-005     | example          | DONE | `test/dashboard_test.dart::loading an absent dashboard id…` |
+| U11 | `removeLayout` is a no-op for an absent id; `removeAll` clears every layout                   | FR-005     | example          | DONE | `test/dashboard_test.dart::removeLayout is a no-op for absent ids…` |
 
 ### `packages/zuraffa_dashboard/lib/src/dashboard_service.dart` (FR-004, FR-007)
 
