@@ -156,5 +156,43 @@ void main() {
         reason: 'nested tile placement kept',
       );
     });
+
+    test('companions: copyWith changes only the targeted field and equal instances compare equal', () {
+      final placement = TilePlacement.create(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      final retitled = placement.copyWith(row: 4);
+      expect(retitled.row, 4, reason: 'copyWith applies the targeted field');
+      expect(retitled.column, 0, reason: 'copyWith keeps column');
+      expect(retitled.rowSpan, 1, reason: 'copyWith keeps rowSpan');
+      expect(retitled.colSpan, 1, reason: 'copyWith keeps colSpan');
+
+      final twin = TilePlacement.create(
+        row: 4,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      expect(retitled, twin, reason: 'equal value objects compare equal');
+      expect(retitled.hashCode, twin.hashCode, reason: 'hashCode agrees');
+
+      final config = {'metric': 'revenue'};
+      final tileA = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: placement,
+        enabled: true,
+        config: config,
+      );
+      final tileB = tileA.copyWith(title: 'Revenue');
+      expect(tileB.title, 'Revenue', reason: 'tile copyWith applies title');
+      expect(tileB.id, kTile, reason: 'tile copyWith keeps id');
+      expect(identical(tileB.config, config), isTrue,
+          reason: 'tile copyWith keeps the config reference');
+    });
   });
 }

@@ -75,3 +75,16 @@ test existed and failed before the implementation.
 - green: suite `dart test` -> 4 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 5: U5 companions — copyWith targets one field; equal instances compare equal
+
+- test: `test/dashboard_test.dart::entities (FR-001) companions: copyWith
+  changes only the targeted field and equal instances compare equal` (new)
+- first-run pass (copyWith/equality are zorphy-generated) -> deliberate-
+  mutant check: `operator ==` in tile_placement.zorphy.dart made
+  `return false` after the identical() guard -> `Expected: TilePlacement<…>
+  Actual: TilePlacement<…>` failure caught by the test; restored via
+  `git checkout --`, suite green again
+- green: suite `dart test` -> 5 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)
