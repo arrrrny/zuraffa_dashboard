@@ -318,3 +318,18 @@ test existed and failed before the implementation.
   (a first restore also reverted the nullable-setter change — re-applied,
   suite re-verified green)
 - commit: (this commit)
+
+## Cycle 24: U23 default platform instance loadLayouts returns empty
+
+- test: `packages/zuraffa_dashboard_platform_interface/test/
+  platform_interface_test.dart::default platform instance (FR-006)
+  loadLayouts on the default instance returns an empty map` (new file)
+- red: `flutter test` -> `Error when reading
+  'lib/zuraffa_dashboard_platform_interface.dart'` / `Method not found:
+  'DefaultZuraffaDashboardPlatform'`
+- green: `ZuraffaDashboardPlatform` contract + `DefaultZuraffaDashboardPlatform`
+  safe fallback + `DashboardWire` shape helpers + barrel (channel driver and
+  adapter files declared empty ahead of their cycles). Suite -> 1 passed,
+  0 failed
+- refactor: none needed
+- commit: (this commit)
