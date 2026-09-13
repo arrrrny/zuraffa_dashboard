@@ -216,4 +216,60 @@ void main() {
       );
     });
   });
+
+  group('move tile (FR-003)', () {
+    test('updates row and column; an unknown tile raises the typed error',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        enabled: true,
+        config: const {},
+      );
+      await AddTileUseCase(repository).execute(
+        AddTileParams(dashboardId: kMain, tile: tile),
+        null,
+      );
+      final useCase = MoveTileUseCase(repository);
+
+      final board = await useCase.execute(
+        const MoveTileParams(dashboardId: kMain, tileId: kTile, row: 2, column: 3),
+        null,
+      );
+      expect(board.tiles.first.placement.row, 2, reason: 'row updated');
+      expect(board.tiles.first.placement.column, 3, reason: 'column updated');
+      expect(
+        board.tiles.first.placement.rowSpan,
+        1,
+        reason: 'spans unchanged by a move',
+      );
+
+      await expectLater(
+        useCase.execute(
+          const MoveTileParams(
+            dashboardId: kMain,
+            tileId: 'missing',
+            row: 1,
+            column: 1,
+          ),
+          null,
+        ),
+        throwsA(isA<TileNotFoundException>()),
+        reason: 'an unknown tile raises the typed error',
+      );
+    });
+  });
 }

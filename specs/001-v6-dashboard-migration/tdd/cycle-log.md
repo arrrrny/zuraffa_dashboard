@@ -222,3 +222,15 @@ test existed and failed before the implementation.
   persists via repository update. Suite -> 16 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 17: U19 MoveTileUseCase updates row/column; unknown tile typed error
+
+- test: `test/usecases_test.dart::move tile (FR-003) updates row and
+  column; an unknown tile raises the typed error` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'MoveTileUseCase'` / `Couldn't find constructor 'MoveTileParams'`
+- green: `MoveTileUseCase` (+ Params) — rebuilds the placement through the
+  guarded `TilePlacement.create` (spans preserved), persists via update.
+  Suite -> 17 passed, 0 failed
+- refactor: dropped an unused import flagged by analyze (clean)
+- commit: (this commit)
