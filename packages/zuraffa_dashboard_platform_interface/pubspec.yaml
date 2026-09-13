@@ -1,0 +1,34 @@
+name: zuraffa_dashboard_platform_interface
+description: >-
+  The platform interface contract for zuraffa_dashboard: the
+  MethodChannel protocol and the DashboardPort bridge platform
+  implementations conform to.
+version: 1.0.0
+homepage: https://zuraffa.com
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.41.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+  zuraffa_dashboard: ^1.0.0
+
+dependency_overrides:
+  zuraffa_dashboard:
+    path: ../zuraffa_dashboard
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+topics:
+  - dashboard
+  - platform-interface
+  - zuraffa
+
+repository: https://github.com/arrrrny/zuraffa_dashboard
+issue_tracker: https://github.com/arrrrny/zuraffa_dashboard/issues

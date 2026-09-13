@@ -1,0 +1,24 @@
+/// zuraffa_dashboard — typed, persistence-backed dashboard layouts for
+/// the Zuraffa ecosystem.
+///
+/// Clean architecture end to end: Zuraffa entities
+/// ([Dashboard], [DashboardTile], [TilePlacement]), a
+/// [DashboardRepository] over Zuraffa datasources, nine business-logic
+/// use cases, and a [DashboardService] facade wired through GetIt by
+/// [registerDashboardDependencies]. Platform adapters
+/// (zuraffa_dashboard_android/ios/macos) implement the [DashboardPort]
+/// as federated siblings; without them layouts persist in memory for the
+/// process lifetime.
+///
+/// Built on the Zuraffa framework (issue #673, EPIC #214).
+///
+/// ```dart
+/// final getIt = GetIt.instance;
+/// registerDashboardDependencies(getIt);
+/// final dashboards = getIt<DashboardService>();
+/// ```
+library;
+
+export 'package:zuraffa/zuraffa.dart' show GetIt;
+
+// Layers land with their tasks; the export list completes at T026/T031.

@@ -1,0 +1,43 @@
+name: zuraffa_dashboard_macos
+description: >-
+  The macOS implementation of zuraffa_dashboard
+  (NSUserDefaults-backed) persisting dashboard layouts on device.
+version: 1.0.0
+homepage: https://zuraffa.com
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.41.0"
+
+flutter:
+  plugin:
+    implements: zuraffa_dashboard
+    platforms:
+      macos:
+        pluginClass: ZuraffaDashboardPlugin
+        dartPluginClass: ZuraffaDashboardMacos
+
+dependencies:
+  flutter:
+    sdk: flutter
+  zuraffa_dashboard: ^1.0.0
+  zuraffa_dashboard_platform_interface: ^1.0.0
+
+dependency_overrides:
+  zuraffa_dashboard:
+    path: ../zuraffa_dashboard
+  zuraffa_dashboard_platform_interface:
+    path: ../zuraffa_dashboard_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+topics:
+  - dashboard
+  - macos
+  - zuraffa
+
+repository: https://github.com/arrrrny/zuraffa_dashboard
+issue_tracker: https://github.com/arrrrny/zuraffa_dashboard/issues
