@@ -1,0 +1,436 @@
+import 'package:test/test.dart';
+import 'package:zuraffa/zuraffa.dart' show ListQueryParams, QueryParams;
+import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
+
+/// Named identifiers reused across tests so a typo fails a compile rather
+/// than a silent mismatch.
+const kMain = 'main';
+const kOwner = 'user-1';
+const kTile = 'tile.sales';
+
+/// Feature `001-v6-dashboard-migration` — the Zuraffa entity / repository /
+/// use-case / DI surface of the dashboard package (pure Dart).
+void main() {
+  group('entities (FR-001)', () {
+    test('dashboard constructs from required fields and carries them', () {
+      final dashboard = Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: true,
+      );
+      expect(dashboard.id, kMain, reason: 'id is carried');
+      expect(dashboard.title, 'Main', reason: 'title is carried');
+      expect(dashboard.owner, kOwner, reason: 'owner is carried');
+      expect(dashboard.tiles, isEmpty, reason: 'tiles default empty here');
+      expect(dashboard.isDefault, isTrue, reason: 'isDefault is carried');
+    });
+
+    test('dashboard tile constructs from required fields and carries them',
+        () {
+      final placement = TilePlacement(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 2,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: placement,
+        enabled: true,
+        config: {'metric': 'revenue'},
+      );
+      expect(tile.id, kTile, reason: 'id is carried');
+      expect(tile.type, 'chart.sales', reason: 'type is carried');
+      expect(tile.title, 'Sales', reason: 'title is carried');
+      expect(tile.placement, same(placement), reason: 'placement is carried');
+      expect(tile.enabled, isTrue, reason: 'enabled is carried');
+      expect(tile.config['metric'], 'revenue', reason: 'config is carried');
+    });
+
+    test('tile placement guards its boundaries on construction', () {
+      final atOrigin = TilePlacement.create(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      expect(atOrigin.row, 0, reason: 'row 0 is the top boundary and valid');
+      expect(atOrigin.column, 0, reason: 'column 0 is the left boundary');
+      expect(atOrigin.rowSpan, 1, reason: 'rowSpan 1 is the minimum');
+      expect(atOrigin.colSpan, 1, reason: 'colSpan 1 is the minimum');
+
+      expect(
+        () => TilePlacement.create(
+          row: -1,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'row below 0 is rejected',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: -1,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'column below 0 is rejected',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 0,
+          colSpan: 1,
+        ),
+        throwsArgumentError,
+        reason: 'rowSpan 0 is below the minimum 1',
+      );
+      expect(
+        () => TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 0,
+        ),
+        throwsArgumentError,
+        reason: 'colSpan 0 is below the minimum 1',
+      );
+    });
+
+    test('entities round-trip through JSON', () {
+      final placement = TilePlacement.create(
+        row: 2,
+        column: 3,
+        rowSpan: 1,
+        colSpan: 2,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: placement,
+        enabled: true,
+        config: {'metric': 'revenue'},
+      );
+      final dashboard = Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: [tile],
+        isDefault: false,
+      );
+
+      final restoredPlacement = TilePlacement.fromJson(placement.toJson());
+      expect(restoredPlacement, placement, reason: 'placement round-trips');
+      expect(restoredPlacement.row, 2, reason: 'placement row preserved');
+      expect(restoredPlacement.column, 3, reason: 'placement column preserved');
+      expect(restoredPlacement.rowSpan, 1, reason: 'rowSpan preserved');
+      expect(restoredPlacement.colSpan, 2, reason: 'colSpan preserved');
+
+      final restoredTile = DashboardTile.fromJson(tile.toJson());
+      expect(restoredTile.id, kTile, reason: 'tile id round-trips');
+      expect(restoredTile.type, 'chart.sales', reason: 'tile type kept');
+      expect(restoredTile.title, 'Sales', reason: 'tile title kept');
+      expect(restoredTile.placement.row, 2, reason: 'nested placement intact');
+      expect(restoredTile.placement.colSpan, 2, reason: 'nested colSpan kept');
+      expect(restoredTile.enabled, isTrue, reason: 'enabled kept');
+      expect(restoredTile.config['metric'], 'revenue', reason: 'config kept');
+
+      final restoredDashboard = Dashboard.fromJson(dashboard.toJson());
+      expect(restoredDashboard.id, kMain, reason: 'dashboard id round-trips');
+      expect(restoredDashboard.title, 'Main', reason: 'dashboard title kept');
+      expect(restoredDashboard.owner, kOwner, reason: 'dashboard owner kept');
+      expect(restoredDashboard.isDefault, isFalse, reason: 'isDefault kept');
+      expect(restoredDashboard.tiles, hasLength(1), reason: 'tiles kept');
+      expect(restoredDashboard.tiles.first.id, kTile, reason: 'tile id kept');
+      expect(
+        restoredDashboard.tiles.first.placement.column,
+        3,
+        reason: 'nested tile placement kept',
+      );
+    });
+
+    test('companions: copyWith changes only the targeted field and equal instances compare equal', () {
+      final placement = TilePlacement.create(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      final retitled = placement.copyWith(row: 4);
+      expect(retitled.row, 4, reason: 'copyWith applies the targeted field');
+      expect(retitled.column, 0, reason: 'copyWith keeps column');
+      expect(retitled.rowSpan, 1, reason: 'copyWith keeps rowSpan');
+      expect(retitled.colSpan, 1, reason: 'copyWith keeps colSpan');
+
+      final twin = TilePlacement.create(
+        row: 4,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 1,
+      );
+      expect(retitled, twin, reason: 'equal value objects compare equal');
+      expect(retitled.hashCode, twin.hashCode, reason: 'hashCode agrees');
+
+      final config = {'metric': 'revenue'};
+      final tileA = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: placement,
+        enabled: true,
+        config: config,
+      );
+      final tileB = tileA.copyWith(title: 'Revenue');
+      expect(tileB.title, 'Revenue', reason: 'tile copyWith applies title');
+      expect(tileB.id, kTile, reason: 'tile copyWith keeps id');
+      expect(identical(tileB.config, config), isTrue,
+          reason: 'tile copyWith keeps the config reference');
+    });
+  });
+
+  group('repository (FR-002)', () {
+    test('create then get returns the stored dashboard; unknown id raises typed not-found',
+        () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      final dashboard = Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      );
+
+      await repository.create(dashboard);
+      final loaded =
+          await repository.get(QueryParams<Dashboard>(params: {'id': kMain}));
+      expect(loaded.id, kMain, reason: 'create stores under the entity id');
+      expect(loaded.title, 'Main', reason: 'stored fields survive');
+
+      await expectLater(
+        repository.get(const QueryParams<Dashboard>(params: {'id': 'missing'})),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown id raises the typed not-found error',
+      );
+    });
+
+    test('getList filters by owner; non-matching owner yields an empty list',
+        () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      await repository.create(Dashboard(
+        id: 'a',
+        title: 'A',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      ));
+      await repository.create(Dashboard(
+        id: 'b',
+        title: 'B',
+        owner: 'user-2',
+        tiles: const [],
+        isDefault: false,
+      ));
+
+      final mine = await repository.getList(
+        ListQueryParams<Dashboard>(params: {'owner': kOwner}),
+      );
+      expect(mine, hasLength(1), reason: 'only the owner dashboards return');
+      expect(mine.first.id, 'a', reason: 'the matching dashboard is returned');
+
+      final theirs = await repository.getList(
+        ListQueryParams<Dashboard>(params: {'owner': 'nobody'}),
+      );
+      expect(theirs, isEmpty, reason: 'unknown owner yields an empty list');
+    });
+
+    test('store clear() empties every stored dashboard', () async {
+      final store = InMemoryDashboardStore();
+      final repository = DataDashboardRepository(InMemoryDashboardDataSource(store));
+      await repository.create(Dashboard(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+        tiles: const [],
+        isDefault: false,
+      ));
+      expect(store.dashboards, hasLength(1), reason: 'precondition: stored');
+
+      store.clear();
+      expect(store.dashboards, isEmpty, reason: 'clear() empties the store');
+    });
+  });
+
+  group('port (FR-005)', () {
+    test('in-memory adapter save then load round-trips the tile list',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      final tiles = [
+        DashboardTile(
+          id: kTile,
+          type: 'chart.sales',
+          title: 'Sales',
+          placement: TilePlacement.create(
+            row: 0,
+            column: 0,
+            rowSpan: 1,
+            colSpan: 2,
+          ),
+          enabled: true,
+          config: const {'metric': 'revenue'},
+        ),
+      ];
+
+      await port.saveLayout(kMain, tiles);
+      final loaded = await port.loadLayouts();
+      expect(loaded[kMain], hasLength(1), reason: 'the layout is stored');
+      expect(loaded[kMain]!.first.id, kTile, reason: 'tile survives save');
+      expect(
+        loaded[kMain]!.first.placement.colSpan,
+        2,
+        reason: 'tile placement survives save',
+      );
+    });
+
+    test('loading an absent dashboard id returns an empty map without throwing',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      final loaded = await port.loadLayouts();
+      expect(loaded, isEmpty,
+          reason: 'nothing persisted -> empty map, no throw');
+      expect(loaded.containsKey('nope'), isFalse,
+          reason: 'absent ids are simply missing');
+    });
+
+    test('removeLayout is a no-op for absent ids; removeAll clears everything',
+        () async {
+      final port = InMemoryDashboardAdapter();
+      await port.saveLayout('a', const []);
+      await port.saveLayout('b', const []);
+
+      await port.removeLayout('missing');
+      final afterAbsentRemove = await port.loadLayouts();
+      expect(afterAbsentRemove.keys, containsAll(['a', 'b']),
+          reason: 'removing an absent id changes nothing');
+
+      await port.removeAll();
+      final afterRemoveAll = await port.loadLayouts();
+      expect(afterRemoveAll, isEmpty, reason: 'removeAll clears every layout');
+    });
+  });
+
+  group('di (FR-004)', () {
+    test('registration wires port, repository, use cases, and service; the default port is in-memory',
+        () async {
+      final getIt = GetIt.asNewInstance();
+      registerDashboardDependencies(getIt);
+
+      expect(getIt.isRegistered<DashboardPort>(), isTrue);
+      expect(getIt<DashboardPort>(), isA<InMemoryDashboardAdapter>(),
+          reason: 'no platform package registered -> in-memory default');
+      expect(getIt.isRegistered<DashboardRepository>(), isTrue);
+
+      // All nine use cases resolve.
+      expect(getIt<CreateDashboardUseCase>(), isNotNull);
+      expect(getIt<ListDashboardsUseCase>(), isNotNull);
+      expect(getIt<GetDashboardUseCase>(), isNotNull);
+      expect(getIt<SaveDashboardUseCase>(), isNotNull);
+      expect(getIt<AddTileUseCase>(), isNotNull);
+      expect(getIt<RemoveTileUseCase>(), isNotNull);
+      expect(getIt<MoveTileUseCase>(), isNotNull);
+      expect(getIt<ResizeTileUseCase>(), isNotNull);
+      expect(getIt<ResetDashboardUseCase>(), isNotNull);
+
+      final service = getIt<DashboardService>();
+      final board = await service.create(
+        id: 'wired',
+        title: 'Wired',
+        owner: kOwner,
+      );
+      expect(board.id, 'wired', reason: 'the service journey works end to end');
+    });
+
+    test('injected port and repository win over the defaults', () async {
+      final getIt = GetIt.asNewInstance();
+      final customPort = InMemoryDashboardAdapter();
+      registerDashboardDependencies(getIt, port: customPort);
+
+      final port = getIt<DashboardPort>();
+      expect(identical(port, customPort), isTrue,
+          reason: 'the injected port is registered verbatim');
+    });
+
+    test('a platform port factory switches the DI default', () async {
+      final getIt = GetIt.asNewInstance();
+      final nativePort = InMemoryDashboardAdapter();
+      setPlatformDashboardPortFactory(() => nativePort);
+      registerDashboardDependencies(getIt);
+
+      final port = getIt<DashboardPort>();
+      expect(identical(port, nativePort), isTrue,
+          reason: 'the factory product becomes the default port');
+      setPlatformDashboardPortFactory(null);
+    });
+  });
+
+  group('acceptance: host journey (SC-002, FR-004)', () {
+    test('a host drives the full journey through the public API and a fresh service restores the moved layout',
+        () async {
+      // One shared store; two service lifetimes over it (app restart).
+      final store = InMemoryDashboardStore();
+      DashboardService serviceFor() {
+        final getIt = GetIt.asNewInstance();
+        final repository =
+            DataDashboardRepository(InMemoryDashboardDataSource(store));
+        registerDashboardDependencies(getIt, repository: repository);
+        return getIt<DashboardService>();
+      }
+
+      // Boot 1: register, create, add, move, save.
+      final first = serviceFor();
+      var board = await first.create(
+        id: kMain,
+        title: 'Main',
+        owner: kOwner,
+      );
+      board = await first.addTile(
+        kMain,
+        DashboardTile(
+          id: kTile,
+          type: 'chart.sales',
+          title: 'Sales',
+          placement: TilePlacement.create(
+            row: 0,
+            column: 0,
+            rowSpan: 1,
+            colSpan: 2,
+          ),
+          enabled: true,
+          config: {'metric': 'revenue'},
+        ),
+      );
+      board = await first.moveTile(kMain, kTile, row: 2, column: 3);
+      await first.save(board);
+
+      // Boot 2: a fresh service over the same store restores the journey.
+      final second = serviceFor();
+      final restored = await second.get(kMain);
+      expect(restored.tiles, hasLength(1), reason: 'the tile persists');
+      expect(restored.tiles.first.placement.row, 2, reason: 'the move persists');
+      expect(restored.tiles.first.placement.column, 3,
+          reason: 'the column persists');
+      expect(await second.list(kOwner), hasLength(1),
+          reason: 'the owner sees the board');
+    });
+  });
+}

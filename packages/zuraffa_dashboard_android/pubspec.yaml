@@ -1,0 +1,44 @@
+name: zuraffa_dashboard_android
+description: >-
+  The Android implementation of zuraffa_dashboard
+  (SharedPreferences-backed) persisting dashboard layouts on device.
+version: 1.0.0
+homepage: https://zuraffa.com
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.41.0"
+
+flutter:
+  plugin:
+    implements: zuraffa_dashboard
+    platforms:
+      android:
+        package: com.zuraffa.dashboard
+        pluginClass: ZuraffaDashboardPlugin
+        dartPluginClass: ZuraffaDashboardAndroid
+
+dependencies:
+  flutter:
+    sdk: flutter
+  zuraffa_dashboard: ^1.0.0
+  zuraffa_dashboard_platform_interface: ^1.0.0
+
+dependency_overrides:
+  zuraffa_dashboard:
+    path: ../zuraffa_dashboard
+  zuraffa_dashboard_platform_interface:
+    path: ../zuraffa_dashboard_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+topics:
+  - dashboard
+  - android
+  - zuraffa
+
+repository: https://github.com/arrrrny/zuraffa_dashboard
+issue_tracker: https://github.com/arrrrny/zuraffa_dashboard/issues
