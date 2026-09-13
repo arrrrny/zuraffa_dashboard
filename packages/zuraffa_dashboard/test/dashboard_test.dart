@@ -25,5 +25,29 @@ void main() {
       expect(dashboard.tiles, isEmpty, reason: 'tiles default empty here');
       expect(dashboard.isDefault, isTrue, reason: 'isDefault is carried');
     });
+
+    test('dashboard tile constructs from required fields and carries them',
+        () {
+      final placement = TilePlacement(
+        row: 0,
+        column: 0,
+        rowSpan: 1,
+        colSpan: 2,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: placement,
+        enabled: true,
+        config: {'metric': 'revenue'},
+      );
+      expect(tile.id, kTile, reason: 'id is carried');
+      expect(tile.type, 'chart.sales', reason: 'type is carried');
+      expect(tile.title, 'Sales', reason: 'title is carried');
+      expect(tile.placement, same(placement), reason: 'placement is carried');
+      expect(tile.enabled, isTrue, reason: 'enabled is carried');
+      expect(tile.config['metric'], 'revenue', reason: 'config is carried');
+    });
   });
 }

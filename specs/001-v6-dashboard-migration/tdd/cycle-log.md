@@ -28,3 +28,20 @@ test existed and failed before the implementation.
   U2/U3). Suite `dart test` -> 1 passed, 0 failed; `dart analyze` clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 2: U2 dashboard tile constructs from required fields and carries them
+
+- test: `test/dashboard_test.dart::entities (FR-001) dashboard tile
+  constructs from required fields and carries them` (new)
+- first-run pass -> deliberate-mutant check: replaced the initializing
+  formal `required this.enabled` with `bool? enabled` + `: enabled = false`
+  -> `Expected: true / Actual: <false>` (test fails for the right reason);
+  restored exactly via `git checkout --`. Note: a first mutant attempt
+  (`enabled = false` initializer) was a compile error and an earlier sed
+  silently did not apply — both discarded, the recorded mutant is the
+  behavioral one above.
+- green: suite `dart test` -> 2 passed, 0 failed
+- refactor: upgraded the U1-cycle declaration stub to the real Zorphy
+  entity (`@Zorphy(generateCompareTo: true)` + codegen, hand stub removed);
+  suite re-run green after the upgrade
+- commit: (this commit)

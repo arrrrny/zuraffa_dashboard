@@ -229,6 +229,22 @@ class DashboardPatch extends PatchBase<Dashboard, Dashboard$> {
     return this;
   }
 
+  DashboardPatch updateTilesAt(
+    int index,
+    DashboardTilePatch Function(DashboardTilePatch) patch,
+  ) {
+    patchMap[Dashboard$.tiles] = (List<dynamic> list) {
+      var updatedList = List<DashboardTile>.from(list);
+      if (index >= 0 && index < updatedList.length) {
+        updatedList[index] = patch(
+          DashboardTilePatch(),
+        ).applyTo(updatedList[index] as DashboardTile);
+      }
+      return updatedList;
+    };
+    return this;
+  }
+
   DashboardPatch withIsDefault(bool? value) {
     patchMap[Dashboard$.isDefault] = value;
     return this;

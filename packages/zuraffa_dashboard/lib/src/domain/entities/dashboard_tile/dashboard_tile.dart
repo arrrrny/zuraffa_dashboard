@@ -1,8 +1,13 @@
+import 'package:zorphy_annotation/zorphy_annotation.dart';
+
 import '../tile_placement/tile_placement.dart';
 
-/// DashboardTile entity (FR-001): one card on a dashboard. Becomes a full
-/// Zorphy entity in its own behavior cycle (U2); declared here so the
-/// [Dashboard] signature resolves.
+part 'dashboard_tile.zorphy.dart';
+
+/// DashboardTile entity (FR-001): one card on a dashboard, identified by a
+/// unique [id] within its dashboard, discriminated by [type], placed on the
+/// grid via [placement], and carrying an opaque JSON-encodable [config].
+@Zorphy(generateCompareTo: true)
 abstract class $DashboardTile {
   /// Unique identifier within its dashboard.
   String get id;
@@ -21,28 +26,4 @@ abstract class $DashboardTile {
 
   /// Opaque JSON-encodable payload.
   Map<String, Object?> get config;
-}
-
-class DashboardTile implements $DashboardTile {
-  DashboardTile({
-    required this.id,
-    required this.type,
-    required this.title,
-    required this.placement,
-    required this.enabled,
-    required this.config,
-  });
-
-  @override
-  final String id;
-  @override
-  final String type;
-  @override
-  final String title;
-  @override
-  final TilePlacement placement;
-  @override
-  final bool enabled;
-  @override
-  final Map<String, Object?> config;
 }
