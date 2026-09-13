@@ -234,3 +234,15 @@ test existed and failed before the implementation.
   Suite -> 17 passed, 0 failed
 - refactor: dropped an unused import flagged by analyze (clean)
 - commit: (this commit)
+
+## Cycle 18: U20 ResizeTileUseCase span boundaries; unknown tile typed error
+
+- test: `test/usecases_test.dart::resize tile (FR-003) updates spans with
+  boundary enforcement; unknown tile typed error` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'ResizeTileUseCase'` / `Couldn't find constructor 'ResizeTileParams'`
+- green: `ResizeTileUseCase` (+ Params) — placement rebuilt through
+  `TilePlacement.create` (rowSpan 0 rejected, 1 valid), persists via update.
+  Suite -> 18 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

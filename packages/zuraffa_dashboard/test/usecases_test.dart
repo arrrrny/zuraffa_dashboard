@@ -272,4 +272,74 @@ void main() {
       );
     });
   });
+
+  group('resize tile (FR-003)', () {
+    test('updates spans with boundary enforcement; unknown tile typed error',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 1,
+          column: 1,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        enabled: true,
+        config: const {},
+      );
+      await AddTileUseCase(repository).execute(
+        AddTileParams(dashboardId: kMain, tile: tile),
+        null,
+      );
+      final useCase = ResizeTileUseCase(repository);
+
+      final board = await useCase.execute(
+        const ResizeTileParams(
+          dashboardId: kMain,
+          tileId: kTile,
+          rowSpan: 2,
+          colSpan: 3,
+        ),
+        null,
+      );
+      expect(board.tiles.first.placement.rowSpan, 2, reason: 'rowSpan updated');
+      expect(board.tiles.first.placement.colSpan, 3, reason: 'colSpan updated');
+      expect(board.tiles.first.placement.row, 1, reason: 'row unchanged');
+
+      await expectLater(
+        useCase.execute(
+          const ResizeTileParams(
+            dashboardId: kMain,
+            tileId: kTile,
+            rowSpan: 0,
+            colSpan: 1,
+          ),
+          null,
+        ),
+        throwsArgumentError,
+        reason: 'rowSpan 0 is below the minimum 1',
+      );
+      await expectLater(
+        useCase.execute(
+          const ResizeTileParams(
+            dashboardId: kMain,
+            tileId: 'missing',
+            rowSpan: 1,
+            colSpan: 1,
+          ),
+          null,
+        ),
+        throwsA(isA<TileNotFoundException>()),
+        reason: 'an unknown tile raises the typed error',
+      );
+    });
+  });
 }

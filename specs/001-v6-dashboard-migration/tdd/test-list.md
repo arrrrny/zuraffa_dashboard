@@ -80,7 +80,7 @@ checks over the shipped artifacts.
 | U17 | `AddTileUseCase` appends the tile; a duplicate tile id raises `DuplicateTileException`        | FR-003     | example          | DONE | `test/usecases_test.dart::appends the tile and persists…` |
 | U18 | `RemoveTileUseCase` removes the tile; an unknown tile id raises `TileNotFoundException`       | FR-003     | example          | DONE | `test/usecases_test.dart::removes the tile…` |
 | U19 | `MoveTileUseCase` updates row and column; an unknown tile id raises `TileNotFoundException`   | FR-003     | example          | DONE | `test/usecases_test.dart::updates row and column…` |
-| U20 | `ResizeTileUseCase` updates spans (span 1 valid, 0 rejected); unknown tile → `TileNotFoundException` | FR-003 | example          | PENDING |      |
+| U20 | `ResizeTileUseCase` updates spans (span 1 valid, 0 rejected); unknown tile → `TileNotFoundException` | FR-003 | example          | DONE | `test/usecases_test.dart::updates spans with boundary enforcement…` |
 | U21 | `SaveDashboardUseCase` persists through the repository and the port                           | FR-003     | example          | PENDING |      |
 | U22 | `ResetDashboardUseCase` restores the default template tiles for the dashboard                 | FR-003     | example          | PENDING |      |
 
