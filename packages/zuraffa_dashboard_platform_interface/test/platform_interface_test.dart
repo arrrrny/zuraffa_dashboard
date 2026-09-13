@@ -98,5 +98,40 @@ void main() {
       expect((wireTiles.first as Map)['id'], kTile,
           reason: 'the wire tiles are forwarded untouched');
     });
+
+    test('removeLayout/removeAll send their methods; PlatformException propagates',
+        () async {
+      final methods = <String>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(MethodChannelZuraffaDashboard.channel,
+              (call) async {
+        methods.add(call.method);
+        if (call.method == 'removeLayout' && call.arguments.first == 'boom') {
+          throw PlatformException(code: 'storage_full');
+        }
+        return null;
+      });
+      addTearDown(() {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+                MethodChannelZuraffaDashboard.channel, null);
+      });
+
+      final platform = MethodChannelZuraffaDashboard();
+      await platform.removeLayout(kMain);
+      await platform.removeAll();
+      expect(methods, ['removeLayout', 'removeAll'],
+          reason: 'the documented method names travel in order');
+
+      await expectLater(
+        platform.removeLayout('boom'),
+        throwsA(isA<PlatformException>().having(
+          (e) => e.code,
+          'code',
+          'storage_full',
+        )),
+        reason: 'a native PlatformException propagates untouched',
+      );
+    });
   });
 }

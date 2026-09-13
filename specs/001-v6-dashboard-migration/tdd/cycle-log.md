@@ -371,3 +371,15 @@ test existed and failed before the implementation.
 - green: suite -> 4 passed, 0 failed
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 28: U27 removeLayout/removeAll method names; PlatformException propagates
+
+- test: `platform_interface_test.dart::method channel (FR-006)
+  removeLayout/removeAll send their methods; PlatformException propagates`
+  (new, contract)
+- first-run pass (driver shipped in cycle 26) -> deliberate-mutant check:
+  'removeAll' mutated to 'removeAllMutant' -> this test fails (`+4 -1`);
+  restored via git checkout
+- green: suite -> 5 passed, 0 failed
+- refactor: none needed
+- commit: (this commit)

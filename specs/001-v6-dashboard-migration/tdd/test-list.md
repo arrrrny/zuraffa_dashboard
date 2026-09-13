@@ -92,7 +92,7 @@ checks over the shipped artifacts.
 | U24 | Default save/remove/removeAll complete without error (no-ops)                                 | FR-006     | example          | DONE | `platform_interface_test.dart::default instance writes complete without error` |
 | U25 | `MethodChannelZuraffaDashboard.loadLayouts` decodes the wire map into per-id tile lists (contract) | FR-006 | contract         | DONE | `platform_interface_test.dart::loadLayouts decodes the wire map…` |
 | U26 | `saveLayout` sends the documented method name with `[id, tiles]` arguments (contract)         | FR-006     | contract         | DONE | `platform_interface_test.dart::saveLayout sends the documented method…` |
-| U27 | `removeLayout`/`removeAll` send their documented method names; a native `PlatformException` propagates (contract) | FR-006 | contract  | PENDING |      |
+| U27 | `removeLayout`/`removeAll` send their documented method names; a native `PlatformException` propagates (contract) | FR-006 | contract  | DONE | `platform_interface_test.dart::removeLayout/removeAll send their methods…` |
 | U28 | `MethodChannelDashboardAdapter` maps wire→typed and typed→wire; unknown wire tiles degrade to an empty result, never a crash | FR-006 | example | PENDING |      |
 
 ## Invariants and edge cases still to place
