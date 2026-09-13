@@ -2,7 +2,7 @@
 feature: 001-v6-dashboard-migration
 issue: 673
 epic: 214
-status: draft
+status: implemented
 ---
 
 # Feature Specification: Migrate `zuraffa_dashboard` to Zuraffa (v6)

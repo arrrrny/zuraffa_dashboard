@@ -446,3 +446,17 @@ test existed and failed before the implementation.
   `zuraffa_permissions` (modulo the example app pending as T044)
 - state: A3, A4, A5 -> DONE
 - commit: (this commit)
+
+## Cycle 33: implement phase — T044/T045/T046 (non-behavior)
+
+- T044: example host app `packages/zuraffa_dashboard/example/` (flutter
+  create, family wired through dependency_overrides per the sibling
+  pattern); `test/dashboard_flow_test.dart` drives the documented journey
+  and renders the board -> 1 passed
+- T045: quickstart run — §1 shape, §2 core suite (24 passed + analyze
+  clean), §3 platform interface suite (7 passed + analyze clean), §4
+  dry-runs (0 warnings across all five), §5 scripts — all green
+- T046: `flutter analyze` clean on android/ios/macos packages (no test
+  dirs — the profile records this as sibling parity; their glue is
+  exercised by the channel contract tests + the example app)
+- commit: (this commit)

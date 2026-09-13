@@ -177,14 +177,14 @@ platform package.
 **Goal**: Checkout → publish-ready is documented and scripted.
 
 - [x] T043 [US6] Finalize root `README.md` [A4] with the one-page workflow: analyze/test per package, dry-run, `PUBLISH.md` pipeline; link specs + example
-- [ ] T044 [US6] Create the example app `packages/zuraffa_dashboard/example/` (minimal Flutter host: registers stack, creates dashboard, adds + moves a tile, saves/reloads) with `dependency_overrides` to siblings and a `test/dashboard_flow_test.dart` widget test proving the journey
-- [ ] T045 [US6] Run `specs/001-v6-dashboard-migration/quickstart.md` end-to-end [A1][A2][A3][A4][A5] and fix any divergence it exposes
+- [x] T044 [US6] Create the example app `packages/zuraffa_dashboard/example/` (minimal Flutter host: registers stack, creates dashboard, adds + moves a tile, saves/reloads) with `dependency_overrides` to siblings and a `test/dashboard_flow_test.dart` widget test proving the journey
+- [x] T045 [US6] Run `specs/001-v6-dashboard-migration/quickstart.md` end-to-end [A1][A2][A3][A4][A5] and fix any divergence it exposes
 
 ---
 
 ## Phase 9: Polish & Cross-Cutting Concerns
 
-- [ ] T046 Run `dart analyze` + full test suites across all packages; fix findings
+- [x] T046 Run `dart analyze` + full test suites across all packages; fix findings
 - [ ] T047 Update spec status frontmatter (`status: implemented`) and record final evidence links in the feature's `tdd/` artifacts
 
 ## Final acceptance gates (outer loop green before done)
