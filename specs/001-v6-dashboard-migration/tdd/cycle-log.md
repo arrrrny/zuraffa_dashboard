@@ -211,3 +211,14 @@ test existed and failed before the implementation.
   implementations). Suite -> 15 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 16: U18 RemoveTileUseCase removes; unknown tile typed error
+
+- test: `test/usecases_test.dart::remove tile (FR-003) removes the tile;
+  an unknown tile id raises the typed error` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'RemoveTileUseCase'` / `Couldn't find constructor 'RemoveTileParams'`
+- green: `RemoveTileUseCase` (+ Params) — presence check, filtered copyWith,
+  persists via repository update. Suite -> 16 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)

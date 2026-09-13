@@ -173,4 +173,47 @@ void main() {
       );
     });
   });
+
+  group('remove tile (FR-003)', () {
+    test('removes the tile; an unknown tile id raises the typed error',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 1,
+        ),
+        enabled: true,
+        config: const {},
+      );
+      final add = AddTileUseCase(repository);
+      await add.execute(AddTileParams(dashboardId: kMain, tile: tile), null);
+      final useCase = RemoveTileUseCase(repository);
+
+      final board = await useCase.execute(
+        const RemoveTileParams(dashboardId: kMain, tileId: kTile),
+        null,
+      );
+      expect(board.tiles, isEmpty, reason: 'the tile is removed');
+
+      await expectLater(
+        useCase.execute(
+          const RemoveTileParams(dashboardId: kMain, tileId: kTile),
+          null,
+        ),
+        throwsA(isA<TileNotFoundException>()),
+        reason: 'removing an absent tile raises the typed error',
+      );
+    });
+  });
 }
