@@ -64,6 +64,12 @@ class InMemoryDashboardDataSource
   }
 
   @override
+  Future<Dashboard> update(Dashboard dashboard) async {
+    store.dashboards[dashboard.id] = dashboard;
+    return dashboard;
+  }
+
+  @override
   Future<Dashboard> create(Dashboard dashboard) async {
     if (store.dashboards.containsKey(dashboard.id)) {
       throw DuplicateDashboardException(dashboard.id);

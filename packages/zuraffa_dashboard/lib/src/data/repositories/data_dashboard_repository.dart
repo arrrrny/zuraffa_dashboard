@@ -21,4 +21,7 @@ class DataDashboardRepository implements DashboardRepository {
 
   @override
   Future<Dashboard> create(Dashboard dashboard) => _dataSource.create(dashboard);
+
+  @override
+  Future<Dashboard> update(Dashboard dashboard) => _dataSource.update(dashboard);
 }

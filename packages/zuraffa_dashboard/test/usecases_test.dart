@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
-import 'package:zuraffa/zuraffa.dart' show ListQueryParams;
+import 'package:zuraffa/zuraffa.dart' show ListQueryParams, QueryParams;
 import 'package:zuraffa_dashboard/zuraffa_dashboard.dart';
 
 const kMain = 'main';
 const kOwner = 'user-1';
+const kTile = 'tile.sales';
 
 /// Shared repository wired over a fresh in-memory store per call.
 DashboardRepository repositoryForTest() =>
@@ -118,6 +119,57 @@ void main() {
         useCase.execute(const GetDashboardParams(id: 'missing'), null),
         throwsA(isA<DashboardNotFoundException>()),
         reason: 'an unknown id raises the typed not-found error',
+      );
+    });
+  });
+
+  group('add tile (FR-003)', () {
+    test('appends the tile and persists; duplicate tile id fails typed',
+        () async {
+      final repository = repositoryForTest();
+      final create = CreateDashboardUseCase(repository);
+      await create.execute(
+        const CreateDashboardParams(id: kMain, title: 'Main', owner: kOwner),
+        null,
+      );
+      final useCase = AddTileUseCase(repository);
+
+      final tile = DashboardTile(
+        id: kTile,
+        type: 'chart.sales',
+        title: 'Sales',
+        placement: TilePlacement.create(
+          row: 0,
+          column: 0,
+          rowSpan: 1,
+          colSpan: 2,
+        ),
+        enabled: true,
+        config: const {'metric': 'revenue'},
+      );
+      final board = await useCase.execute(
+        AddTileParams(dashboardId: kMain, tile: tile),
+        null,
+      );
+      expect(board.tiles, hasLength(1), reason: 'the tile is appended');
+
+      final stored = await repository.get(
+        QueryParams<Dashboard>(params: {'id': kMain}),
+      );
+      expect(stored.tiles, hasLength(1), reason: 'the mutation persists');
+
+      await expectLater(
+        useCase.execute(AddTileParams(dashboardId: kMain, tile: tile), null),
+        throwsA(isA<DuplicateTileException>()),
+        reason: 'a duplicate tile id fails typed',
+      );
+      await expectLater(
+        useCase.execute(
+          AddTileParams(dashboardId: 'missing', tile: tile),
+          null,
+        ),
+        throwsA(isA<DashboardNotFoundException>()),
+        reason: 'an unknown dashboard raises the typed error',
       );
     });
   });

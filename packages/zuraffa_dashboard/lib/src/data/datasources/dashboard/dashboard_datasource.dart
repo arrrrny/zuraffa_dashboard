@@ -9,4 +9,5 @@ abstract class DashboardDataSource
   Future<Dashboard> get(QueryParams<Dashboard> params);
   Future<List<Dashboard>> getList(ListQueryParams<Dashboard> params);
   Future<Dashboard> create(Dashboard dashboard);
+  Future<Dashboard> update(Dashboard dashboard);
 }

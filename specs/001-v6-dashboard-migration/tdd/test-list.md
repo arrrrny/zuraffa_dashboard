@@ -77,7 +77,7 @@ checks over the shipped artifacts.
 | U14 | `CreateDashboardUseCase` creates and persists; a duplicate id fails typed                     | FR-003     | example          | DONE | `test/usecases_test.dart::creates and persists; duplicate id fails typed…` |
 | U15 | `ListDashboardsUseCase` filters by owner; an unknown owner yields an empty list               | FR-003     | example          | DONE | `test/usecases_test.dart::lists the owner dashboards…` |
 | U16 | `GetDashboardUseCase` raises `DashboardNotFoundException` for an unknown id                    | FR-003     | example          | DONE | `test/usecases_test.dart::returns the stored board…` |
-| U17 | `AddTileUseCase` appends the tile; a duplicate tile id raises `DuplicateTileException`        | FR-003     | example          | PENDING |      |
+| U17 | `AddTileUseCase` appends the tile; a duplicate tile id raises `DuplicateTileException`        | FR-003     | example          | DONE | `test/usecases_test.dart::appends the tile and persists…` |
 | U18 | `RemoveTileUseCase` removes the tile; an unknown tile id raises `TileNotFoundException`       | FR-003     | example          | PENDING |      |
 | U19 | `MoveTileUseCase` updates row and column; an unknown tile id raises `TileNotFoundException`   | FR-003     | example          | PENDING |      |
 | U20 | `ResizeTileUseCase` updates spans (span 1 valid, 0 rejected); unknown tile → `TileNotFoundException` | FR-003 | example          | PENDING |      |

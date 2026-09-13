@@ -8,4 +8,7 @@ abstract class DashboardRepository {
   Future<Dashboard> get(QueryParams<Dashboard> params);
   Future<List<Dashboard>> getList(ListQueryParams<Dashboard> params);
   Future<Dashboard> create(Dashboard dashboard);
+
+  /// Persists the mutated [dashboard] (tile add/remove/move/resize).
+  Future<Dashboard> update(Dashboard dashboard);
 }

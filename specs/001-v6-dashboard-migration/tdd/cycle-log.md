@@ -198,3 +198,16 @@ test existed and failed before the implementation.
   Suite -> 14 passed, 0 failed; analyze clean
 - refactor: none needed
 - commit: (this commit)
+
+## Cycle 15: U17 AddTileUseCase appends and persists; duplicate tile id typed
+
+- test: `test/usecases_test.dart::add tile (FR-003) appends the tile and
+  persists; duplicate tile id fails typed` (new)
+- red: `dart test test/usecases_test.dart` -> `Method not found:
+  'AddTileUseCase'` / `'AddTileParams'`
+- green: `AddTileUseCase` (+ Params) over the repository — duplicate check
+  against the board's tiles, append via copyWith, persist through a new
+  repository `update` method (wired through datasource contract + both
+  implementations). Suite -> 15 passed, 0 failed; analyze clean
+- refactor: none needed
+- commit: (this commit)
