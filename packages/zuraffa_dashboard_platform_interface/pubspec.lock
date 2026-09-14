@@ -774,7 +774,7 @@ packages:
       path: "../zuraffa_dashboard"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "6.2.2"
 sdks:
   dart: ">=3.11.0 <4.0.0"
   flutter: ">=3.41.0"
