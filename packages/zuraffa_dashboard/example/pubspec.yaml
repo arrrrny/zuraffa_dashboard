@@ -40,11 +40,11 @@ dependencies:
 
   # The federated plugin under test (app-facing core + platform
   # siblings; siblings forced to path via dependency_overrides below).
-  zuraffa_dashboard: ^6.2.2
-  zuraffa_dashboard_platform_interface: ^6.2.2
-  zuraffa_dashboard_android: ^6.2.2
-  zuraffa_dashboard_ios: ^6.2.2
-  zuraffa_dashboard_macos: ^6.2.2
+  zuraffa_dashboard: ^7.2.0
+  zuraffa_dashboard_platform_interface: ^7.2.0
+  zuraffa_dashboard_android: ^7.2.0
+  zuraffa_dashboard_ios: ^7.2.0
+  zuraffa_dashboard_macos: ^7.2.0
 
 dev_dependencies:
   flutter_test:
@@ -110,3 +110,5 @@ dependency_overrides:
     path: ../../zuraffa_dashboard_ios
   zuraffa_dashboard_macos:
     path: ../../zuraffa_dashboard_macos
+
+  xml: 7.1.0
