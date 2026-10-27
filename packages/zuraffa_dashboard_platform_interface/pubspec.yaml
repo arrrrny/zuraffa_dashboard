@@ -3,7 +3,7 @@ description: >-
   The platform interface contract for zuraffa_dashboard: the
   MethodChannel protocol and the DashboardPort bridge platform
   implementations conform to.
-version: 6.2.2
+version: 7.2.0
 homepage: https://zuraffa.com
 
 environment:
@@ -20,6 +20,7 @@ dependency_overrides:
   zuraffa_dashboard:
     path: ../zuraffa_dashboard
 
+  xml: 7.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

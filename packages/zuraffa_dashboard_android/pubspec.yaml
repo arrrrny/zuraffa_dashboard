@@ -2,7 +2,7 @@ name: zuraffa_dashboard_android
 description: >-
   The Android implementation of zuraffa_dashboard
   (SharedPreferences-backed) persisting dashboard layouts on device.
-version: 6.2.2
+version: 7.2.0
 homepage: https://zuraffa.com
 
 environment:
@@ -30,6 +30,7 @@ dependency_overrides:
   zuraffa_dashboard_platform_interface:
     path: ../zuraffa_dashboard_platform_interface
 
+  xml: 7.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
