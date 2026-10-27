@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   get_it: ^9.2.1
-  zuraffa: ^6.2.2
+  zuraffa: ^7.2.0
 
   # The federated plugin under test (app-facing core + platform
   # siblings; siblings forced to path via dependency_overrides below).
