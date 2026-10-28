@@ -2,7 +2,7 @@ name: zuraffa_dashboard_ios
 description: >-
   The iOS implementation of zuraffa_dashboard
   (NSUserDefaults-backed) persisting dashboard layouts on device.
-version: 7.2.0
+version: 7.3.0
 homepage: https://zuraffa.com
 
 environment:
@@ -20,8 +20,8 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  zuraffa_dashboard: ^7.2.0
-  zuraffa_dashboard_platform_interface: ^7.2.0
+  zuraffa_dashboard: ^7.3.0
+  zuraffa_dashboard_platform_interface: ^7.3.0
 
 dependency_overrides:
   zuraffa_dashboard:
@@ -30,6 +30,8 @@ dependency_overrides:
     path: ../zuraffa_dashboard_platform_interface
 
   xml: 7.1.0
+  zuraffa:
+    path: ../../../zuraffa
 dev_dependencies:
   flutter_test:
     sdk: flutter

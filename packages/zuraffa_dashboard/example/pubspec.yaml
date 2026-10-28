@@ -17,7 +17,7 @@ description: >-
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 7.2.0
+version: 7.3.0
 
 environment:
   sdk: ^3.13.3
@@ -36,15 +36,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   get_it: ^9.2.1
-  zuraffa: ^7.2.0
+  zuraffa: ^7.3.0
 
   # The federated plugin under test (app-facing core + platform
   # siblings; siblings forced to path via dependency_overrides below).
-  zuraffa_dashboard: ^7.2.0
-  zuraffa_dashboard_platform_interface: ^7.2.0
-  zuraffa_dashboard_android: ^7.2.0
-  zuraffa_dashboard_ios: ^7.2.0
-  zuraffa_dashboard_macos: ^7.2.0
+  zuraffa_dashboard: ^7.3.0
+  zuraffa_dashboard_platform_interface: ^7.3.0
+  zuraffa_dashboard_android: ^7.3.0
+  zuraffa_dashboard_ios: ^7.3.0
+  zuraffa_dashboard_macos: ^7.3.0
 
 dev_dependencies:
   flutter_test:
@@ -112,3 +112,6 @@ dependency_overrides:
     path: ../../zuraffa_dashboard_macos
 
   xml: 7.1.0
+
+  zuraffa:
+    path: ../../../../zuraffa
