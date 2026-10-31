@@ -112,6 +112,3 @@ dependency_overrides:
     path: ../../zuraffa_dashboard_macos
 
   xml: 7.1.0
-
-  zuraffa:
-    path: ../../../../zuraffa
