@@ -100,18 +100,4 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 dependency_overrides:
-  zuraffa_dashboard:
-    path: ../
-  zuraffa_dashboard_platform_interface:
-    path: ../../zuraffa_dashboard_platform_interface
-  zuraffa_dashboard_android:
-    path: ../../zuraffa_dashboard_android
-  zuraffa_dashboard_ios:
-    path: ../../zuraffa_dashboard_ios
-  zuraffa_dashboard_macos:
-    path: ../../zuraffa_dashboard_macos
-
   xml: 7.1.0
-
-  zuraffa:
-    path: ../../../../zuraffa
