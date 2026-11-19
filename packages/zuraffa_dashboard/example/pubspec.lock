@@ -516,65 +516,65 @@ packages:
     dependency: transitive
     description:
       name: zorphy
-      sha256: "29a3e10383b40286cedd8a4a82342f032c19d0993fa0e3518911d823e04b86fe"
+      sha256: a2b400798c6c33881ad326fffc353eea56418d9a7fb314906ba881c7ddd14ebd
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.5.1"
   zorphy_annotation:
     dependency: transitive
     description:
       name: zorphy_annotation
-      sha256: "402d08a0f9a02de6a832bc6ac714b9f85c5b4e10a889e6d159644cd8faa11b35"
+      sha256: "8b1879ce2b74332b8f909d369b955f5081d4ca9e2a96dc1ec3fc66721bfb36ba"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.5.1"
   zuraffa:
     dependency: "direct main"
     description:
       path: "../../../../zuraffa"
       relative: true
     source: path
-    version: "7.4.2"
+    version: "7.5.1"
   zuraffa_dashboard:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard
-      sha256: e3ba92d12b8df3405b22c9f3806cabf85145759354bbe5d263447a8fc92cae48
+      sha256: c36541d59b8c37abc35d4dc1ba1a9815e2003684678556d2978f150a0340ec3b
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.5.0"
   zuraffa_dashboard_android:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_android
-      sha256: dc9faa5b0c0badfd4542682ce644021e7d713e5287c8a3cee8361d3d4f85641e
+      sha256: daaddb0f3f5cca9848d78d1cc81ff0c8ee77861ea3e645fe76d927e449bd50b9
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.5.0"
   zuraffa_dashboard_ios:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_ios
-      sha256: "7f5c505c4c5ca68b610bd1ae3628accc5660c7771e9913dbd3fae6b2d0efca7f"
+      sha256: "8210dd1a79f3cb866b7eed43d99ba3fafd29d8ff4651c1b90e79c9bec9e9dc72"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.5.0"
   zuraffa_dashboard_macos:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_macos
-      sha256: "20d4a6c94deed93e3aac4823dcf78dfcdb2fadf86fa43ea5ca110a9f3ba7ac25"
+      sha256: "380af66392a9eb5c33d8cb91c54545d06acbc3036a8b713e50c6a53aad86be31"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.5.0"
   zuraffa_dashboard_platform_interface:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_platform_interface
-      sha256: "8d841178e8e1aa913d10e75b3290bf7e8753b63bf6bd5342ca20ab9ad396756c"
+      sha256: "9e9a0e04ebb4748d81765c54fa345f8d8387a8298ae53e328d6afdd51e0f40df"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.5.0"
 sdks:
   dart: ">=3.13.3 <4.0.0"
   flutter: ">=3.41.0"
