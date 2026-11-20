@@ -508,34 +508,34 @@ packages:
     dependency: transitive
     description:
       name: zorphy
-      sha256: "29a3e10383b40286cedd8a4a82342f032c19d0993fa0e3518911d823e04b86fe"
+      sha256: a2b400798c6c33881ad326fffc353eea56418d9a7fb314906ba881c7ddd14ebd
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.5.1"
   zorphy_annotation:
     dependency: transitive
     description:
       name: zorphy_annotation
-      sha256: "402d08a0f9a02de6a832bc6ac714b9f85c5b4e10a889e6d159644cd8faa11b35"
+      sha256: "8b1879ce2b74332b8f909d369b955f5081d4ca9e2a96dc1ec3fc66721bfb36ba"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.5.1"
   zuraffa:
     dependency: transitive
     description:
       name: zuraffa
-      sha256: "8aef4bccb63682b344a1c60f70c76473f931f89c158671c154fecb345b8c0b79"
+      sha256: ef610afd23f6a4c86ce1ad904db869265b9f8050bec145f907c8b6c8a6d488f6
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.6.0"
   zuraffa_dashboard:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard
-      sha256: e3ba92d12b8df3405b22c9f3806cabf85145759354bbe5d263447a8fc92cae48
+      sha256: "956fa9cfce67f78c7ff8d3aa506f5b02acbe9c6e5d799cedb09fe06925b64e4b"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.2"
+    version: "7.6.0"
 sdks:
   dart: ">=3.13.0 <4.0.0"
   flutter: ">=3.41.0"

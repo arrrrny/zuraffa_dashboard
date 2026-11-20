@@ -531,50 +531,51 @@ packages:
   zuraffa:
     dependency: "direct main"
     description:
-      path: "../../../../zuraffa"
-      relative: true
-    source: path
-    version: "7.5.1"
+      name: zuraffa
+      sha256: ef610afd23f6a4c86ce1ad904db869265b9f8050bec145f907c8b6c8a6d488f6
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.0"
   zuraffa_dashboard:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard
-      sha256: c36541d59b8c37abc35d4dc1ba1a9815e2003684678556d2978f150a0340ec3b
+      sha256: "956fa9cfce67f78c7ff8d3aa506f5b02acbe9c6e5d799cedb09fe06925b64e4b"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.6.0"
   zuraffa_dashboard_android:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_android
-      sha256: daaddb0f3f5cca9848d78d1cc81ff0c8ee77861ea3e645fe76d927e449bd50b9
+      sha256: a60ce69c32dcac546b9e8c675d8a1c6d034a61f9737fc227d90afc034cbd6b51
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.6.0"
   zuraffa_dashboard_ios:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_ios
-      sha256: "8210dd1a79f3cb866b7eed43d99ba3fafd29d8ff4651c1b90e79c9bec9e9dc72"
+      sha256: "922110810110f8aba9f01de8318cc2b7a7f54eaddcaf266cbdec91db1c0eed3f"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.6.0"
   zuraffa_dashboard_macos:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_macos
-      sha256: "380af66392a9eb5c33d8cb91c54545d06acbc3036a8b713e50c6a53aad86be31"
+      sha256: e85c560fb9bfe663483360808e710cbaa71d01a38f5a80b6394d7fbea7e9744d
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.6.0"
   zuraffa_dashboard_platform_interface:
     dependency: "direct main"
     description:
       name: zuraffa_dashboard_platform_interface
-      sha256: "9e9a0e04ebb4748d81765c54fa345f8d8387a8298ae53e328d6afdd51e0f40df"
+      sha256: a6b88350a0c761ee30638b6b0b55581a168f442a5b65c16a754fc834ccff0ad7
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.0"
+    version: "7.6.0"
 sdks:
   dart: ">=3.13.3 <4.0.0"
   flutter: ">=3.41.0"
